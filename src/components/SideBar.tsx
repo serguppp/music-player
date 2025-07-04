@@ -13,8 +13,7 @@ export default function SideBar(){
             after:h-full 
             after:w-0.5 
             after:bg-normal-pink
-            after:shadow-[8px_0px_20px_1px_#ec489980]
-">
+            after:shadow-[8px_0px_20px_1px_#ec489980] ">
             <div className="">
                 <h1 className="text-3xl font-bold bg-gradient-to-r from-normal-pink to-normal-blue bg-clip-text text-transparent mb-12">
                     Melodies
@@ -24,31 +23,31 @@ export default function SideBar(){
                     Menu
                 </h6>
 
-                <nav className="flex flex-col space-y-4 mb-4">
-                    <Button variant="text" href="/" Icon={House}>Home</Button>
-                    <Button variant="text" href="/discover" Icon={Compass} >Discover</Button>
-                    <Button variant="text" href="/albums" Icon={Disc}>Albums</Button>
-                    <Button variant="text" href="/artists" Icon={MicVocal}>Artists</Button>
+                <nav className="flex flex-col space-y-6 mb-4">
+                    <Button variant="side_bar" href="/" Icon={House}>Home</Button>
+                    <Button variant="side_bar" href="/discover" Icon={Compass} >Discover</Button>
+                    <Button variant="side_bar" href="/albums" Icon={Disc}>Albums</Button>
+                    <Button variant="side_bar" href="/artists" Icon={MicVocal}>Artists</Button>
                 </nav>
 
                 <h6 className="text-xs font-semibold text-normal-pink mb-4">
                     Library
                 </h6>
 
-                <nav className="flex flex-col space-y-4 mb-4">
-                    <Button variant="text" href="/recentlyadded" Icon={Clock}>Recently added</Button>
-                    <Button variant="text" href="/mostplayed" Icon={History}>Most played</Button>
-                    <Button variant="text" href="/favourites" Icon={Heart}>Your favourites</Button>
-                    <Button variant="text" href="/playlists" Icon={ListMusic}>Your playlists</Button>
+                <nav className="flex flex-col space-y-6 mb-4">
+                    <Button variant="side_bar" href="/recentlyadded" Icon={Clock}>Recently added</Button>
+                    <Button variant="side_bar" href="/mostplayed" Icon={History}>Most played</Button>
+                    <Button variant="side_bar" href="/favourites" Icon={Heart}>Your favourites</Button>
+                    <Button variant="side_bar" href="/playlists" Icon={ListMusic}>Your playlists</Button>
                 </nav>
 
                 <h6 className="text-xs font-semibold text-normal-pink mb-4">
                     General
                 </h6>
 
-                <nav className="flex flex-col space-y-4 mb-4">
-                    <Button variant="text" href="/settings" Icon={Settings}>Settings</Button>
-                    <Button variant="text" href="/logout" Icon={LogOut}>Logout</Button>
+                <nav className="flex flex-col space-y-6 mb-4">
+                    <Button variant="side_bar" href="/settings" Icon={Settings}>Settings</Button>
+                    <Button variant="side_bar" href="/logout" className="text-normal-pink" Icon={LogOut}>Logout</Button>
                 </nav>
 
             </div>

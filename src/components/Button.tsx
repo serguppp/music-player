@@ -6,7 +6,7 @@ import Link from "next/link";
 
 type ButtonProps = {
   children: ReactNode;
-  variant?: 'fill' | 'outline' | 'text'; 
+  variant?: 'fill' | 'outline_pink' | 'outline_blue' | 'text' | 'side_bar'; 
   className?: string;
   href: string; 
   Icon?: ElementType
@@ -24,17 +24,21 @@ export default function Button({
 
     const isActive = (href === "/") ? pathname === href : pathname.startsWith(href);
 
-    const baseStyles = "rounded-lg transition-all items-center flex w-40";
+    const baseStyles = "rounded-lg transition-all items-center flex w-40 font-[family-name:var(--font-geist-sans)] ";
     const variantStyles = {
-        fill: "bg-normal-pink text-sm",
-        outline: "bg-transparent outline-normal-pink text-sm" ,
-        text: "bg-transparent text-sm",
+        fill: "bg-normal-pink",
+        outline_pink: "outline outline-normal-pink ",
+        outline_blue: "outline outline-normal-blue",
+        text: "bg-transparent ",
+        side_bar: "bg-transparent text-sm"
     };
 
     const activeVariantStyles = {
-        fill: "bg-darker-pink", 
-        outline: "outline-darker-pink",
-        text: "bg-normal-pink text-base p-2",
+        fill: "bg-normal-pink", 
+        outline_pink: "outline-normal-pink",
+        outline_blue: "outline-normal-blue",
+        text: "bg-normal-pink p-2",
+        side_bar: "bg-normal-pink p-2 text-xl"
     };
 
     const combinedStyles = `${baseStyles} ${isActive ? activeVariantStyles[variant] : variantStyles[variant]} ${className}`;
