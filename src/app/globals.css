@@ -2,6 +2,8 @@
 
 :root {
   --background: #181818;
+  --card: #1d1d1d;
+  --card-hover:#363636;
   --foreground: #ffffff;
   --normal-pink: #ee10b0;
   --normal-blue: #0e9eef;
@@ -10,6 +12,8 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-hover: var(--card-hover);
   --color-normal-pink: var(--normal-pink);
   --color-normal-blue: var(--normal-blue);
 

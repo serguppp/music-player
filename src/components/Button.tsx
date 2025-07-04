@@ -6,7 +6,7 @@ import Link from "next/link";
 
 type ButtonProps = {
   children: ReactNode;
-  variant?: 'fill' | 'outline_pink' | 'outline_blue' | 'text' | 'side_bar'; 
+  variant?: 'fill' | 'outline_pink' | 'outline_blue' | 'text' | 'side_bar' ; 
   className?: string;
   href: string; 
   Icon?: ElementType
@@ -27,7 +27,7 @@ export default function Button({
     const baseStyles = "rounded-lg transition-all items-center flex w-40 font-[family-name:var(--font-geist-sans)] ";
     const variantStyles = {
         fill: "bg-normal-pink",
-        outline_pink: "outline outline-normal-pink ",
+        outline_pink: "outline outline-normal-pink",
         outline_blue: "outline outline-normal-blue",
         text: "bg-transparent ",
         side_bar: "bg-transparent text-sm"

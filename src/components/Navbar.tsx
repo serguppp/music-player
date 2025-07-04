@@ -1,12 +1,12 @@
 'use client'
 
 import { useState } from "react"
-import { Track } from '@/app/types';
+//import { Track } from '@/app/types';
 import Button from "./Button";
 
 export default function Navbar(){
         const [query, setQuery] = useState<string>('');
-        const [results, setResults] = useState<Track[]>([]);
+        //const [results, setResults] = useState<Track[]>([]);
         const [activeSongUrl, setActiveSongUrl] = useState<string>('');
     
         const handleSearch = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -15,7 +15,7 @@ export default function Navbar(){
     
             const response = await fetch(`/api/search?q=${query}`);
             const data = await response.json();
-            setResults(data.data || []);
+            //setResults(data.data || []);
         }
     
         return(
