@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
+
 import Navbar from "@/components/Navbar";
 import SideBar from "@/components/SideBar";
 
@@ -28,14 +29,14 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased overflow-x-hidden`}
       >
-        <div className="flex">
+        <div className="flex ">
             <SideBar/>
           <main className="flex-1 md:p-8 md:ml-64 ">
-            <div className="max-w-7xl mx-auto relative">
+            <div className="max-w-screen mx-auto relative">
               <Navbar />
-              <div>
+              <div className="max-w-screen">
                 {children}
               </div>
             </div>

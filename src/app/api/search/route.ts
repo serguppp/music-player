@@ -1,5 +1,7 @@
 import { NextResponse } from "next/server";
 
+//Search one track/album/artist
+//This function returns the best match
 export async function GET(request: Request) {
     const { searchParams } = new URL(request.url);
     const query = searchParams.get('q');
@@ -17,3 +19,4 @@ export async function GET(request: Request) {
         return NextResponse.json({ error: 'Błąd serwera' }, {status: 500});
     }
 }
+
