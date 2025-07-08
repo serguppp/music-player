@@ -1,7 +1,7 @@
 'use client'
 import Card from "./Card";
 import { ReactNode } from "react";
-import { Artist, Album, Track, Playlist } from "@/app/types/types";
+import { Artist, Album, Track, Playlist } from "@/types/types";
 import Button from "./Button";
 import { Plus } from "lucide-react";
 

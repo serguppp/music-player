@@ -6,14 +6,14 @@ export default async function Home({params} : {params : { id:string }}){
     const { id } =  await params;
     const item = await fetchItemByID("album", id);
     
-    if (!item){
+    if (!item || item.type != "album"){
         return (
             <Page404/>
         )
     }
     else{
         return(
-            <View album={item}/>
+            <View item={item}/>
         )
     }
 

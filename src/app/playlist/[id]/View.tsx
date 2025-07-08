@@ -3,16 +3,15 @@
 import { useState, useEffect } from 'react';
 import Image from "next/image"
 import Button from "@/components/Button";
-import { Album, Track, Playlist } from "@/app/types/types";
-import { FastAverageColor } from 'fast-average-color';
+import { Album, Track, Playlist } from "@/types/types";
 import { Heart, Icon, ListPlus } from 'lucide-react';
 import { Clock } from 'lucide-react';
 import { Share } from 'lucide-react';
+import { BgColorFromImage } from '@/hooks/useImageAverageColor';
 
-type HeaderProps = {
-  playlist: Playlist;
+type Props = {
+	item : Playlist;
 }
-
 function adjustFontSize(text: string): string {
 	const length = text.length;
 	if (length < 20) return 'text-7xl';
@@ -21,43 +20,33 @@ function adjustFontSize(text: string): string {
 	return 'text-2xl';
 }
 
-export default function View( {playlist} : HeaderProps){
-	const [bgColor, setBgColor] = useState('#1e1e1e');
-
-	useEffect(() => {
-		const fac = new FastAverageColor();
-		fac.getColorAsync(playlist.picture_xl, { mode: 'precision' })
-		.then(color => {
-			if (color) setBgColor(color.hex);
-		})
-		.catch(e => console.error(e));
-	}, [playlist.picture_xl]);
-
+export default function View( {item} : Props){
+	const bgColor = BgColorFromImage(item.picture_xl);
 
 	const handlePlay = () =>{
-		console.log("Playing:", playlist.title);
+		console.log("Playing:", item.title);
 	}
 
-	const titleStyle = adjustFontSize(playlist.title);
+	const titleStyle = adjustFontSize(item.title);
 
   return (
     	<div className="bg-card flex flex-col gap-y-5 p-5 rounded-4xl " style={{ background: `linear-gradient(to bottom, ${bgColor} 0%, #121212 400px)` }}>
 			<div className="rounded-t-4xl w-full">
 				<div className="flex flex-col lg:flex-row gap-5 mt-20 w-full ">
 					<div className="xl:min-w-52 xl:min-h-52">
-						<Image src={playlist.picture_xl} alt={'Album Cover'}  width={192} height={192} className="w-52 h-52 rounded-2xl shadow-lg"></Image>
+						<Image src={item.picture_xl} alt={'Album Cover'}  width={192} height={192} className="w-52 h-52 rounded-2xl shadow-lg"></Image>
 					</div>
 					<div className="flex flex-col justify-center relative min-w-sm ">
 						<div className="flex flex-col">
-							<p>Playlist</p>
-							<h1 className={`${titleStyle} font-bold`}>{playlist.title}</h1>
-                            <p>{playlist.description}</p>                            
+							<p>playlist</p>
+							<h1 className={`${titleStyle} font-bold`}>{item.title}</h1>
+                            <p>{item.description}</p>                            
 						</div>
 
 						<div className="text-sm flex gap-1 lg:absolute lg:bottom-0 ">
-							<p className="font-bold" >{playlist.creator.name} •</p>
-							<p>{playlist.nb_tracks} tracks •</p>
-							<p>{(playlist.duration/60).toFixed(0)} m {(playlist.duration%60)} s </p>
+							<p className="font-bold" >{item.creator.name} •</p>
+							<p>{item.nb_tracks} tracks •</p>
+							<p>{(item.duration/60).toFixed(0)} m {(item.duration%60)} s </p>
 						</div>  
 					</div>
 			</div>
@@ -95,7 +84,7 @@ export default function View( {playlist} : HeaderProps){
 		<hr className="border-card-hover w-full border-t"/>
 
 		<ul className="flex flex-col gap-3 ">
-			{playlist.tracks.data.map((track, i)=>(
+			{item.tracks.data.map((track, i)=>(
 			<li key={track.id} className="group py-1 grid grid-cols-[50px_1fr_1fr] lg:grid-cols-[50px_1fr_300px_300px_50px] px-2 hover:bg-card-hover rounded-lg" >
 				<div className="group-hover:hidden justify-self-end me-9">{i+1}</div>
 				<div className="hidden group-hover:block self-start"><Button raw variant="bar_play" onClick={handlePlay} className=""/></div>

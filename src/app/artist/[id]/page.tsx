@@ -4,9 +4,9 @@ import Page404 from "@/components/Page404";
 
 export default async function Home({params} : {params : { id:string }}){
     const { id } =  await params;
-    const item = await fetchItemByID("playlist", id);
+    const item = await fetchItemByID("artist", id);
     
-    if (!item || item.type != "playlist"){
+    if (!item || item.type != "artist"){
         return (
             <Page404/>
         )

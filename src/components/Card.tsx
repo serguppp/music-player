@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import type { ReactNode, ElementType } from "react";
 import { usePathname } from 'next/navigation';
-import { Artist, Album, Track, Playlist } from "@/app/types/types";
+import { Artist, Album, Track, Playlist } from "@/types/types";
     
 import Button from "./Button";
 
