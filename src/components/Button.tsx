@@ -9,7 +9,7 @@ type ButtonProps = {
   children?: ReactNode;
   active?: boolean; //Style the button if its target path matches the current pathname
   raw?: boolean; //Removes default styling to allow for fully custom button styles
-  variant?: 'fill' | 'outline_pink' | 'outline_blue' | 'text' | 'side_bar' | 'shelf' | 'card_play' | 'play';  //Button variants
+  variant?: 'fill' | 'outline_pink' | 'outline_blue' | 'text' | 'side_bar' | 'shelf' | 'card_play' | 'play' | 'bar' | 'bar_play';  //Button variants
   className?: string;
   href?: string; 
   Icon?: ElementType
@@ -38,10 +38,12 @@ export default function Button({
       outline_pink: "outline outline-normal-pink",
       outline_blue: "outline outline-normal-blue",
       text: "bg-transparent ",
-      side_bar: "bg-transparent text-sm",
+      side_bar: "bg-transparent text-sm hover:bg-card-hover hover:scale-120 hover:shadow-xs  hover:shadow-normal-pink duration-300",
       shelf:'bg-card w-32 h-32 xl:w-16 xl:h-16 rounded-full flex flex-shrink-0 justify-center items-center hover:scale-110 hover:bg-card-hover transition-all',
       card_play:'absolute z-10 w-14 h-14 hover:scale-110 shadow-black shadow-sm bg-green-500 hover:bg-green-400 rounded-full flex items-center justify-center cursor-pointer opacity-0 group-hover:opacity-100 transition-opacity duration-300 top-25 right-4',
-      play:'w-14 h-14 hover:scale-110 shadow-black shadow-sm bg-green-500 hover:bg-green-400 rounded-full flex items-center justify-center cursor-pointer opacity-100 transition-opacity duration-300 '
+      play:'w-14 h-14 hover:scale-110 shadow-black shadow-sm bg-green-500 hover:bg-green-400 rounded-full flex items-center justify-center cursor-pointer opacity-100 transition-opacity duration-300 ',
+      bar: 'cursor-pointer w-14 hover:scale-110  flex items-center justify-center',
+      bar_play: 'w-6 h-6 hover:scale-110 shadow-normal-pink  shadow-sm bg-transparent rounded-full flex items-center justify-center cursor-pointer opacity-100 transition-opacity duration-300 '
     };
 
     //Styles applied when a button is active (if its target path matches the current pathname)
@@ -54,6 +56,8 @@ export default function Button({
       shelf: '',
       card_play: '',
       play: '',
+      bar: '',
+      bar_play: '',
     };
 
     //Combine base, variant, and active styles conditionally
@@ -69,13 +73,16 @@ export default function Button({
       { [ "mr-2 h-5 w-5"] : !raw && !isActive}, // styles for inactive default buttons
       { [ "mr-2 h-6 w-6"] : !raw && isActive}, // styles for active default buttons
       { [ "h-12 w-12 xl:h-6 xl:w-6"] : raw && variant==="shelf" }, 
-
+      { [ "h-10 w-10 xl:h-8 xl:w-8"] : raw && variant==="bar"},
+      { [ "h-6 w-6 xl:h-5 xl:w-5"] : raw && variant==="bar_play"},
     );
     
     //Styles applied to button children
     const childrenStyles = clsx(
       { [ "absolute mt-48 xl:mt-24 text-center text-xl lg:text-lg"] : variant==="shelf"},
-      {  [ "w-0 h-0 border-l-[20px] border-l-black border-t-[12px] border-t-transparent border-b-[12px] border-b-transparent"] : raw && (variant==="play" || variant==="card_play") }
+      {  [ "w-0 h-0 border-l-[20px] border-l-black border-t-[12px] border-t-transparent border-b-[12px] border-b-transparent"] : raw && (variant==="play" || variant==="card_play")},
+      {  [ "w-0 h-0 border-l-[10px] border-l-white border-t-[6px] border-t-transparent border-b-[6px] border-b-transparent"] : raw && variant === "bar_play" }
+      
     );
     
     if(href){

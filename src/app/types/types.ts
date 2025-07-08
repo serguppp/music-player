@@ -12,7 +12,6 @@ export type Album = {
     cover_xl: string;
     nb_tracks: number;
     artist: Artist;
-    contributors: Artist[];
     tracks: { data: Track[] };
     record_type: string;
     release_date: string;
@@ -36,9 +35,13 @@ export type Track = {
 export type Playlist = {
     id: number;
     title: string;
+    description: string;
+    duration: number;
+    tracks: {data: Track[]};
     nb_tracks: number;
     fans: number;
     picture_xl: string;
     link: string;
+    creator: {name: string };
     type: 'playlist';
 };

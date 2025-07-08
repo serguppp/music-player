@@ -4,7 +4,7 @@ import Page404 from "@/components/Page404";
 
 export default async function Home({params} : {params : { id:string }}){
     const { id } =  await params;
-    const item = await fetchItemByID("album", id);
+    const item = await fetchItemByID("playlist", id);
     
     if (!item){
         return (
@@ -13,7 +13,7 @@ export default async function Home({params} : {params : { id:string }}){
     }
     else{
         return(
-            <View album={item}/>
+            <View playlist={item}/>
         )
     }
 

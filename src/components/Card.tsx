@@ -40,7 +40,7 @@ export default function Card({
         subtitle = item.nb_tracks + " tracks - " + item.fans + " fans";
     }
 
-    const baseStyles = "max-w-48 px-3 py-2 flex flex-col gap-1 rounded-lg text-white font-[family-name:var(--font-geist-sans)] hover:bg-card-hover transition-all"
+    const baseStyles = " max-w-48 px-3 py-2 flex flex-col gap-1 rounded-lg text-white font-[family-name:var(--font-geist-sans)] hover:bg-card-hover hover:shadow-sm hover:shadow-normal-blue transition-all duration-100"
     const variantStyles = {
         square: "bg-card hover:scale-105",
         circle: "bg-card hover:scale-105",
