@@ -19,7 +19,7 @@ export default function Navbar(){
         }
     
         return(
-            <header className="absolute z-10 grid grid-cols-2 lg:grid-cols-3 px-8 py-6 gap-x-8 w-full">
+            <header className="absolute max-w-screen z-10 grid grid-cols-2 lg:grid-cols-3 px-8 py-6 gap-x-8 ">
                 <div className="">
                     <form onSubmit={handleSearch}>
                         <input type="text" value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search for music, artists..."

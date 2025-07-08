@@ -7,13 +7,16 @@ export async function GET(request: Request) {
     const query = searchParams.get('q');
     const type = searchParams.get('type');
 
-    if (!query){
-        return NextResponse.json({ error: 'Brak zapytania' }, {status: 400});
+    if (!query || !type){
+        return NextResponse.json({ error: 'Brak parametrów' }, {status: 400});
     }
 
     try {
         const response = await fetch(`https://api.deezer.com/search/${type}?q=${encodeURIComponent(query)}`);
         const data = await response.json();
+        if (data.error){
+            return NextResponse.json({error: 'Brak obiektów'}, {status: 404});
+        }
         return NextResponse.json(data);
     } catch (error) {
         return NextResponse.json({ error: 'Błąd serwera' }, {status: 500});

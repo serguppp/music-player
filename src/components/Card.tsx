@@ -2,15 +2,12 @@ import Image from "next/image";
 import Link from "next/link";
 import type { ReactNode, ElementType } from "react";
 import { usePathname } from 'next/navigation';
-import { Artist } from "@/app/types/types";
-import { Album } from "@/app/types/types";
-import { Track } from "@/app/types/types";
+import { Artist, Album, Track, Playlist } from "@/app/types/types";
     
 import Button from "./Button";
-import { Play } from "lucide-react";
 
 type CardProps = { 
-    item: Track | Album | Artist;
+    item: Track | Album | Artist | Playlist;
     variant?: 'square' | 'circle';
     className?: string;
 } & React.AnchorHTMLAttributes<HTMLAnchorElement>;
@@ -29,17 +26,21 @@ export default function Card({
         imageUrl = item.album.cover_xl;
         title = item.title;
         subtitle = item.artist.name;
-    } else if (item.type=="artist"){ // Album
+    } else if (item.type=="artist"){ // Artist
         imageUrl = item.picture_xl;
         title = item.name;
         subtitle = "Artist";
-    } else{ //Artist
+    } else if (item.type=='album'){ //Album
         imageUrl = item.cover_xl;
         title = item.title;
         subtitle = item.artist.name;
+    } else {
+        imageUrl = item.picture_xl;
+        title = item.title;
+        subtitle = item.nb_tracks + " tracks - " + item.fans + " fans";
     }
 
-    const baseStyles = "w-auto px-3 py-2 flex flex-col gap-1 rounded-lg text-white font-[family-name:var(--font-geist-sans)] hover:bg-card-hover transition-all"
+    const baseStyles = "max-w-48 px-3 py-2 flex flex-col gap-1 rounded-lg text-white font-[family-name:var(--font-geist-sans)] hover:bg-card-hover transition-all"
     const variantStyles = {
         square: "bg-card hover:scale-105",
         circle: "bg-card hover:scale-105",
@@ -47,17 +48,20 @@ export default function Card({
 
     const combinedStyles = `${variantStyles[variant]} ${baseStyles} `
 
+    const linkUrl = `/${item.type=="track" ? `album/${item.album.id}` : `${item.type}/${item.id}` }`;
+
     return(
         <div className="relative group w-fit">        
-            <Link href={item.link || `https://www.deezer.com/album/${item.id}`} className="">
+            <Link href={linkUrl} className="">
                 <div className={`${combinedStyles} group relative`}>
-                    <Image src={imageUrl} width={256} height={256} alt={title} className={`${variant === "circle" ? 'rounded-full' : 'rounded-lg'} shadow-card shadow-lg`}></Image>
-                    <p className="text-lg font-medium">{title}</p>
+                    <Image src={imageUrl} width={256} height={256} alt={title} className={`${variant === "circle" ? "rounded-full" : "rounded-lg"} shadow-card shadow-lg`}></Image>
+                    <p className="text-lg font-medium line-clamp-1">{title}</p>
                     <p className="text-sm font-extralight">{subtitle}</p>
+                    <p></p>
                 </div>
             </Link>
 
-            <Button raw variant="play" Icon={Play} onClick={()=>{}}></Button>
+            <Button raw variant="card_play" onClick={()=>{}}></Button>
         </div>
 
     );

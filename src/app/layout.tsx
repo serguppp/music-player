@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
-
 import Navbar from "@/components/Navbar";
 import SideBar from "@/components/SideBar";
 
@@ -34,12 +33,10 @@ export default function RootLayout({
         <div className="flex ">
             <SideBar/>
           <main className="flex-1 md:p-8 md:ml-64 ">
-            <div className="max-w-screen mx-auto relative">
-              <Navbar />
-              <div className="max-w-screen">
+            <Navbar />
+              <div className="max-w-screen z-0 top-5 md:top-10 flex flex-col font-[family-name:var(--font-geist-sans)] ">
                 {children}
               </div>
-            </div>
           </main>
         </div>
       </body>

@@ -1,15 +1,13 @@
 'use client'
 import Card from "./Card";
 import { ReactNode } from "react";
-import { Artist } from "@/app/types/types";
-import { Album } from "@/app/types/types";
-import { Track } from "@/app/types/types";
+import { Artist, Album, Track, Playlist } from "@/app/types/types";
 import Button from "./Button";
 import { Plus } from "lucide-react";
 
 type ShelfProps ={
     children: ReactNode;
-    items: (Track | Album | Artist)[];
+    items: (Track | Album | Artist | Playlist)[];
     variant?: 'square' | 'circle';
 }
 

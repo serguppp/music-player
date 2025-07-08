@@ -5,10 +5,18 @@ export async function GET(request:Request) {
     const { searchParams } = new URL(request.url);
     const type = searchParams.get('type');
     const limit = searchParams.get('limit');
+
+        if (!limit || !type){
+        return NextResponse.json({ error: 'Brak parametrów' }, {status: 400});
+    }
     try {
         const response = await fetch(`https://api.deezer.com/chart/0/${type}${limit? `?limit=${limit}` :''}`);
         const data = await response.json();
+        if (data.error){
+            return NextResponse.json({error: 'Brak utworów'}, {status: 404});
+        }
         return NextResponse.json(data);
+        
     } catch (error) {
         return NextResponse.json({ error: 'Błąd serwera' }, {status: 500});
     }
