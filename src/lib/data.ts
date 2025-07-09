@@ -1,7 +1,5 @@
-import { Album, Artist, Playlist, Track } from "@/types/types";
-import { NextResponse } from "next/server";
+import { Album, Artist, Playlist, Track, ItemTypes } from "@/types/types";
 
-export type ItemTypes = Track | Album | Artist | Playlist;
 
 const DEEZER_API_URL = "https://api.deezer.com";
 
@@ -26,11 +24,16 @@ async function apiFetch<T>(url:string): Promise<T | null> {
     }
 }
 
-// Fetching items (types: "artist", "album", "track", "playlist")
+// Fetching item (types: "artist", "album", "track", "playlist")
 export async function fetchItem(name:string, type:string) : Promise<ItemTypes | null>{
    const url = `${DEEZER_API_URL}/search/${type}?q=${name}`;
    return await apiFetch<ItemTypes>(url);
     
+}
+
+export async function fetchItems(name: string, type:string) : Promise<ItemTypes[]>{
+    const url = `${DEEZER_API_URL}/search/${type}?q=${name}`;
+    return (await apiFetch<ItemTypes[]>(url)) ?? [];
 }
 
 export async function fetchItemByID(type:string, id: string) : Promise<ItemTypes | null>{
@@ -49,3 +52,8 @@ export async function fetchNewAlbums() : Promise<Album[]>{
     return (await apiFetch<Album[]>(url)) ?? [];
 }
 
+// Fetch top artist's tracks.
+export async function fetchArtistTopTracks(id: string, limit: number): Promise<Track[] | null>{
+    const url = `${DEEZER_API_URL}/artist/${id}/top?limit=${limit}`
+    return (await apiFetch<Track[]>(url)) ?? [];
+}

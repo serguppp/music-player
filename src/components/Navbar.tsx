@@ -1,21 +1,18 @@
 'use client'
 
 import { useState } from "react"
-//import { Track } from '@/app/types';
+import { useRouter } from "next/navigation";
 import Button from "./Button";
 
 export default function Navbar(){
         const [query, setQuery] = useState<string>('');
-        //const [results, setResults] = useState<Track[]>([]);
-        const [activeSongUrl, setActiveSongUrl] = useState<string>('');
+        const router = useRouter();
     
         const handleSearch = async (e: React.FormEvent<HTMLFormElement>) => {
             e.preventDefault();
             if (!query) return;
-    
-            const response = await fetch(`/api/search?q=${query}`);
-            const data = await response.json();
-            //setResults(data.data || []);
+
+            router.push(`/search?q=${encodeURIComponent(query)}`);
         }
     
         return(
@@ -26,7 +23,7 @@ export default function Navbar(){
                                className="text-white p-4 h-8 w-full md:h-12 rounded-xl bg-background"/>
                     </form>
                 </div>
-
+                
                 <div className="hidden lg:flex space-x-6 justify-end">
                     <Button variant="text" href="/premium" className="text-base lg:text-xl  justify-center">Premium</Button>
                 </div>

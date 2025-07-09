@@ -8,35 +8,15 @@ import { Heart, Icon, ListPlus } from 'lucide-react';
 import { Clock } from 'lucide-react';
 import { Share } from 'lucide-react';
 import { BgColorFromImage } from '@/hooks/useImageAverageColor';
+import { estimatePopularity } from '@/utils/estimatePopularity';
+import { adjustFontSize } from '@/utils/adjustFontSize';
 
 type Props ={
 	item: Album;
+	tracks : Track[];
 }
 
-function adjustFontSize(text: string): string {
-	const length = text.length;
-	if (length < 20) return 'text-7xl';
-	if (length < 40) return 'text-5xl';
-	if (length < 60) return 'text-3xl';
-	return 'text-2xl';
-}
-
-function estimatePopularity(rank: number, date: string): string {
-	let base = Math.round(500 * Math.exp(rank / 175000) * 10000	);
-
-	const currentYear = new Date().getFullYear();
-  	const releaseYear = parseInt(date.slice(0, 4));
-
-	const age = currentYear - releaseYear;	
-
-	if (age==0) base*=0.01;
-	else if (age==1) base*=0.5;
-	else if (age==2) base*=0.75;
-
-	return Math.round(base).toLocaleString('pl-PL');
-}
-
-export default function View({item}:Props){
+export default function View({item, tracks}:Props){
 	const bgColor = BgColorFromImage(item.cover_xl)
 
 	const handlePlay = () =>{
@@ -87,6 +67,7 @@ export default function View({item}:Props){
 			<div className="hidden lg:block justify-self-end me-5 md:me-15">
 				<p>Plays</p>
 			</div>
+			
 			<div className="hidden lg:block justify-self-center">
 				<Clock/>			
 			</div>
@@ -95,15 +76,18 @@ export default function View({item}:Props){
 		<hr className="border-card-hover w-full border-t"/>
 
 		<ul className="flex flex-col gap-3 ">
-			{item.tracks.data.map((track, i)=>(
-			<li key={track.id} className="group py-1 grid grid-cols-[50px_1fr_200px_50px] px-2 hover:bg-card-hover rounded-lg" >
-				<div className="visible group-hover:hidden justify-self-end me-9">{i+1}</div>
-				<div className="hidden  group-hover:block pe-1"><Button raw variant="bar_play" onClick={handlePlay} className=""/></div>
-				<div>{track.title}</div>	
-				<div className="hidden lg:block justify-self-end  me-5 md:me-15">{estimatePopularity(track.rank, item.release_date)}</div>
-				<div className="hidden lg:block justify-self-center" >{(track.duration/60).toFixed(0)}:{(track.duration%60)<10 ? `0${track.duration%60}`: track.duration%60}</div>
-			</li>
-		))}
+			{tracks ? tracks.map((track, i)=>(
+				<li key={track.id} className="items-center group py-1 grid grid-cols-[50px_1fr] lg:grid-cols-[50px_1fr_200px_50px] px-2 hover:bg-card-hover rounded-lg" >
+					<div className="group-hover:hidden justify-self-end me-9">{i+1}</div>
+					<div className="hidden  group-hover:block pe-1"><Button raw variant="bar_play" onClick={handlePlay} className=""/></div>
+					<div className="flex flex-col ">
+						<div>{track.title}</div>
+						<div className="text-xs text-normal-pink">{track.contributors.map((c) => c.name).join(", ")}</div>	
+					</div>
+					<div className="hidden lg:block justify-self-end  me-5 md:me-15">{estimatePopularity(track.rank, item.release_date)}</div>
+					<div className="hidden lg:block justify-self-center" >{(track.duration/60).toFixed(0)}:{(track.duration%60)<10 ? `0${track.duration%60}`: track.duration%60}</div>
+				</li>
+		)) : ""}
 		</ul>
     
 	</div>

@@ -40,20 +40,14 @@ export default function Card({
         subtitle = item.nb_tracks + " tracks - " + item.fans + " fans";
     }
 
-    const baseStyles = " max-w-48 px-3 py-2 flex flex-col gap-1 rounded-lg text-white font-[family-name:var(--font-geist-sans)] hover:bg-card-hover hover:shadow-sm hover:shadow-normal-blue transition-all duration-100"
-    const variantStyles = {
-        square: "bg-card hover:scale-105",
-        circle: "bg-card hover:scale-105",
-    }
-
-    const combinedStyles = `${variantStyles[variant]} ${baseStyles} `
+    const styles = "group relative bg-card max-w-48 px-3 py-2 flex flex-col gap-1 rounded-lg text-white font-[family-name:var(--font-geist-sans)] hover:scale-105 hover:bg-card-hover hover:shadow-md hover:shadow-normal-blue ease-in-out transition-all duration-300"
 
     const linkUrl = `/${item.type=="track" ? `album/${item.album.id}` : `${item.type}/${item.id}` }`;
 
     return(
         <div className="relative group w-fit">        
             <Link href={linkUrl} className="">
-                <div className={`${combinedStyles} group relative`}>
+                <div className={`${styles}`}>
                     <Image src={imageUrl} width={256} height={256} alt={title} className={`${variant === "circle" ? "rounded-full" : "rounded-lg"} shadow-card shadow-lg`}></Image>
                     <p className="text-lg font-medium line-clamp-1">{title}</p>
                     <p className="text-sm font-extralight">{subtitle}</p>

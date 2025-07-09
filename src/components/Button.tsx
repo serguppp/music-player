@@ -95,7 +95,7 @@ export default function Button({
     }
     else{
       return(
-       <button  className={combinedStyles} {...props}>
+       <button className={combinedStyles} {...props}>
           {Icon && <Icon className={iconStyles}/>}
           <div className={childrenStyles}>{children}</div>
         </button>

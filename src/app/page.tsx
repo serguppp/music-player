@@ -1,9 +1,6 @@
-import Image from "next/image";
-import Link from 'next/link';
 import Button from "@/components/Button";
 import Shelf from "@/components/Shelf";
-import { fetchItem, fetchNewAlbums, fetchTop} from "@/lib/data";
-import Navbar from "@/components/Navbar";
+import { fetchNewAlbums, fetchTop} from "@/lib/data";
 
 export default async function Home() {
   // Types: tracks, albums, artists, playlists, podcasts

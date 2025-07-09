@@ -1,13 +1,16 @@
+export type ItemTypes = Track | Album | Artist | Playlist;
+
 export type Artist = {
-    id: number;
+    id: string;
     name: string;
     picture_xl: string;
     link: string;
+    nb_fan: number;
     type: 'artist';
 };
 
 export type Album = {
-    id: number;
+    id: string;
     title: string;
     cover_xl: string;
     nb_tracks: number;
@@ -21,7 +24,7 @@ export type Album = {
 };
 
 export type Track = {
-    id: number;
+    id: string;
     title: string;
     artist: Artist;
     album: Album;
@@ -29,11 +32,12 @@ export type Track = {
     rank: number;
     release_date: string;
     duration: number;
+    contributors: { id: string, name: string}[];
     type: 'track';
 };
 
 export type Playlist = {
-    id: number;
+    id: string;
     title: string;
     description: string;
     duration: number;
