@@ -2,76 +2,50 @@ import { Album, Artist, Playlist, Track } from "@/types/types";
 import { NextResponse } from "next/server";
 
 export type ItemTypes = Track | Album | Artist | Playlist;
-// Fetching items (types: "artist", "album", "track", "playlist")
-export async function fetchItem(name:string, type:string) : Promise<ItemTypes | null>{
+
+const DEEZER_API_URL = "https://api.deezer.com";
+
+async function apiFetch<T>(url:string): Promise<T | null> {
     try{
-        const response = await fetch(`http://localhost:3000/api/search?q=${name}&type=${type}`);
+        const response = await fetch(url);
         if(!response.ok){
-            console.log("Deezer API failed response for item ", name, " ", type);
+            console.log("Deezer API failed response for url: ", url);
             return null;
         }
-        
+
         const data = await response.json();
         if(data.error){
+            console.error(`API returned an error:`, data.error);
             return null;
-        }
-        return data as ItemTypes;
+        }        
+
+        return (data.data || data) as T;
     } catch(error){
-        console.log ("Failed to fetch item ", error);
+        console.log (`Failed to fetch item from ${url}`, error);
         return null;
     }
+}
+
+// Fetching items (types: "artist", "album", "track", "playlist")
+export async function fetchItem(name:string, type:string) : Promise<ItemTypes | null>{
+   const url = `${DEEZER_API_URL}/search/${type}?q=${name}`;
+   return await apiFetch<ItemTypes>(url);
     
 }
 
 export async function fetchItemByID(type:string, id: string) : Promise<ItemTypes | null>{
-    try{
-        const response = await fetch(`https://api.deezer.com/${type}/${id}`);
-        if(!response.ok){
-            console.log("Deezer API failed response for track ", id);
-            return null;
-        }
-
-        const data = await response.json();
-        if(data.error){
-            return null;
-        }
-        return data as ItemTypes;
-    } catch(error){
-        console.log ("Failed to fetch track", error);
-        return null;
-    }
+    const url = `${DEEZER_API_URL}/${type}/${id}`;
+    return await apiFetch<ItemTypes>(url);
 }
-
 
 // Fetch top global items selected by Deezer team;
 export async function fetchTop(type: string) : Promise<ItemTypes[]>{
-    try{
-        const response = await fetch(`https://api.deezer.com/chart/0/${type}?limit=5`);
-        if(!response.ok){
-            console.log("Deezer API failed response for top ", type);
-            return [];
-        }
-
-        const data = await response.json();
-        return data.data ?? [];
-    } catch(error){
-        console.log("Failed to fetch Top tracks ", error);
-        return [];
-    }
+    const url = `${DEEZER_API_URL}/chart/0/${type}?limit=5`;
+    return (await apiFetch<ItemTypes[]>(url)) ?? [];
 }
 
-export async function fetchNewAlbums() : Promise<ItemTypes[]>{
-    try{
-        const response = await fetch(`https://api.deezer.com/editorial/0/releases?limit=5`);
-        if(!response.ok){
-            console.log("Deezer API failed response for newest albums");
-        }
-        
-        const data = await response.json();
-        return data.data ?? [];
-    } catch(error){
-        console.log("Failed to fetch new albums", error);
-        return [];   
-    }
+export async function fetchNewAlbums() : Promise<Album[]>{
+    const url = `${DEEZER_API_URL}/editorial/0/releases?limit=5`;
+    return (await apiFetch<Album[]>(url)) ?? [];
 }
 
