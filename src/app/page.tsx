@@ -6,7 +6,7 @@ export default async function Home() {
   // Types: tracks, albums, artists, playlists, podcasts
   const topTracks = await fetchTop("tracks");
   const topArtists = await fetchTop("artists");
-  const topPlaylists = await fetchTop("playlists");
+  const topPlaylists = await fetchTop("playlists");  
   const newAlbums = await fetchNewAlbums();
   return (
     <div className="flex flex-col gap-y-20">

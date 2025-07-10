@@ -5,7 +5,7 @@ import { Artist, Album, Track, Playlist } from "@/types/types";
 import Button from "./Button";
 import { Plus } from "lucide-react";
 
-type ShelfProps ={
+type Props ={
     children: ReactNode;
     items: (Track | Album | Artist | Playlist)[];
     variant?: 'square' | 'circle';
@@ -15,7 +15,7 @@ export default function Shelf({
     children,
     items,
     variant = 'square',
-}: ShelfProps){
+}: Props){
     return (
         <div className="max-w-screen flex flex-col gap-6 ">
             <h1 className="text-3xl md:text-4xl font-bold text-white">{children}</h1>

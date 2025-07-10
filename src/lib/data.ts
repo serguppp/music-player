@@ -1,6 +1,9 @@
 import { Album, Artist, Playlist, Track, ItemTypes } from "@/types/types";
 
 
+//FIXME: change type:string to type:ItemTypes
+// ?FIXME?: maybe change  data.ts and tracks.ts to React Query (TanStack Query)
+
 const DEEZER_API_URL = "https://api.deezer.com";
 
 async function apiFetch<T>(url:string): Promise<T | null> {
@@ -31,22 +34,25 @@ export async function fetchItem(name:string, type:string) : Promise<ItemTypes | 
     
 }
 
+// Fetching list of items
 export async function fetchItems(name: string, type:string) : Promise<ItemTypes[]>{
     const url = `${DEEZER_API_URL}/search/${type}?q=${name}`;
     return (await apiFetch<ItemTypes[]>(url)) ?? [];
 }
 
+// Fetching item by its ID
 export async function fetchItemByID(type:string, id: string) : Promise<ItemTypes | null>{
     const url = `${DEEZER_API_URL}/${type}/${id}`;
     return await apiFetch<ItemTypes>(url);
 }
 
-// Fetch top global items selected by Deezer team;
+// Fetch top global items selected by Deezer team 
 export async function fetchTop(type: string) : Promise<ItemTypes[]>{
     const url = `${DEEZER_API_URL}/chart/0/${type}?limit=5`;
     return (await apiFetch<ItemTypes[]>(url)) ?? [];
 }
 
+// Fetch new albums 
 export async function fetchNewAlbums() : Promise<Album[]>{
     const url = `${DEEZER_API_URL}/editorial/0/releases?limit=5`;
     return (await apiFetch<Album[]>(url)) ?? [];
@@ -56,4 +62,10 @@ export async function fetchNewAlbums() : Promise<Album[]>{
 export async function fetchArtistTopTracks(id: string, limit: number): Promise<Track[] | null>{
     const url = `${DEEZER_API_URL}/artist/${id}/top?limit=${limit}`
     return (await apiFetch<Track[]>(url)) ?? [];
+}
+
+// Fetch artists' albums.
+export async function fetchArtistAlbums(id: string) : Promise<Album []>{
+    const url = `${DEEZER_API_URL}/artist/${id}/albums/`
+    return (await apiFetch<Album[]>(url)) ?? [];
 }

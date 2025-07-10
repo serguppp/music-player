@@ -5,7 +5,7 @@ import type { ReactNode, ElementType } from "react";
 import Link from "next/link";
 import clsx from 'clsx';
 
-type ButtonProps = {
+type Props = {
   children?: ReactNode;
   active?: boolean; //Style the button if its target path matches the current pathname
   raw?: boolean; //Removes default styling to allow for fully custom button styles
@@ -24,7 +24,7 @@ export default function Button({
     href,
     Icon, 
     ...props
-}: ButtonProps){
+}: Props){
     const pathname = usePathname();
 
     const isActive = active && pathname===href;
@@ -87,7 +87,7 @@ export default function Button({
     
     if(href){
       return (
-        <Link href={href} className={combinedStyles} {...props}>
+        <Link rel="preload" href={href} className={combinedStyles} {...props}>
           {Icon && <Icon className={iconStyles}/>}
           <div className={childrenStyles}>{children}</div>
         </Link>

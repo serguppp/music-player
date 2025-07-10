@@ -8,6 +8,8 @@ import { Clock } from 'lucide-react';
 import { Share } from 'lucide-react';
 import { BgColorFromImage } from '@/hooks/useImageAverageColor';
 import { adjustFontSize } from "@/utils/adjustFontSize";
+import Link from "next/link";
+import { Fragment } from "react";
 
 type Props = {
 	item : Playlist;
@@ -28,7 +30,7 @@ export default function View( {item, tracks} : Props){
 			<div className="rounded-t-4xl w-full">
 				<div className="flex flex-col lg:flex-row gap-5 mt-20 w-full ">
 					<div className="xl:min-w-52 xl:min-h-52">
-						<Image src={item.picture_xl} alt={'Album Cover'}  width={192} height={192} className="w-52 h-52 rounded-2xl shadow-lg"></Image>
+						<Image loading="lazy" src={item.picture_xl} alt={'Album Cover'}  width={192} height={192} className="w-52 h-52 rounded-2xl shadow-lg"></Image>
 					</div>
 					<div className="flex flex-col justify-center relative min-w-sm ">
 						<div className="flex flex-col">
@@ -76,14 +78,21 @@ export default function View( {item, tracks} : Props){
 		<ul className="flex flex-col gap-3 ">
 			{tracks ? tracks.map((track, i)=>(
 			<li key={track.id} className="items-center group py-1 grid grid-cols-[50px_1fr] lg:grid-cols-[50px_1fr_200px_50px] px-2 hover:bg-card-hover rounded-lg" >
-				<div className="group-hover:hidden justify-self-end me-9">{i+1}</div>
+				<div className="group-hover:hidden justify-self-end me-9"><p>{i+1}</p></div>
 				<div className="hidden group-hover:block"><Button raw variant="bar_play" onClick={handlePlay} className=""/></div>
-					<div className="flex flex-col ">
-						<div>{track.title}</div>
-						<div className="text-xs text-normal-pink">{track.contributors.map((c) => c.name).join(", ")}</div>	
+				<div className="relative">
+					<Link rel="preload" href={`/album/${track.album.id}`}><p>{track.title}</p></Link>
+					<div className="text-xs text-normal-pink">
+						{track.contributors.map((c, i) => (
+							<Fragment key={i}>
+							<Link rel="preload" href={`/artist/${c.id}`} className="hover:underline">{c.name}</Link>
+							{i < track.contributors.length - 1 && ", "}
+							</Fragment>
+						))}
 					</div>
-                <div className="max-w-[200px] hidden lg:block justify-self-end me-5 lg:me-15 truncate">{track.album.title}</div>
-				<div className="hidden lg:block justify-self-center" >{(track.duration/60).toFixed(0)}:{(track.duration%60)<10 ? `0${track.duration%60}`: track.duration%60}</div>
+				</div>
+                <div className="max-w-[200px] hidden lg:block justify-self-end me-5 lg:me-15 truncate"><p>{track.album.title}</p></div>
+				<div className="hidden lg:block justify-self-center" ><p>{(track.duration/60).toFixed(0)}:{(track.duration%60)<10 ? `0${track.duration%60}`: track.duration%60}</p></div>
 			</li>
 		)) : ""}
 		</ul>

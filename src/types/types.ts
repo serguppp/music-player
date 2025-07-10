@@ -6,6 +6,7 @@ export type Artist = {
     picture_xl: string;
     link: string;
     nb_fan: number;
+    nb_album: number;
     type: 'artist';
 };
 
