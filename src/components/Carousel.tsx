@@ -1,3 +1,5 @@
+'use client'
+
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination, Autoplay } from "swiper/modules";
 import { ItemTypes, Album } from "@/types/types";
@@ -6,6 +8,7 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import Card from "./Card";
+import { isAlbum } from "@/utils/typeGuards";
 
 type Props = {
     items : ItemTypes[],
@@ -14,15 +17,7 @@ type Props = {
 }
 
 export default function Carousel({items, artist, className} : Props){
-    items.sort((a, b) => {
-        if(a.type==="album" && b.type==="album"){
-            return b.release_date.slice(0,4).localeCompare(a.release_date);
-        }
-        if (a.type==="album") return -1;
-        if (b.type==="album") return 1;
-        return 0;
-    });
-    
+    // COMMIT: Removed sorting because playlist is already sorted
     return (
         <Swiper
             modules={[Navigation, Pagination, Autoplay]}
@@ -40,11 +35,10 @@ export default function Carousel({items, artist, className} : Props){
             className={`${className}`}
         >
                                 
-        {items.map((c, i) => (c.type === "album" && c.artist.name === artist && c.record_type!="single") ? (
+        {items.map((c, i) => (isAlbum(c) && c.artist.name === artist && c.record_type!="single") ? (
             <SwiperSlide key={c.id} className={`p-4 items-center justify-center max-w-7xl `}>
                 <Card carousel item={c} variant="square"></Card>
             </SwiperSlide>   
-
         ) : "")}
         </Swiper>
     );

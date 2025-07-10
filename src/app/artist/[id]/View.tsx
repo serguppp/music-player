@@ -1,17 +1,10 @@
 'use client'
 import Image from "next/image"
-import Button from "@/components/Button";
 import { Artist, Album, Track, ItemTypes } from "@/types/types";
-import { Heart, ListPlus } from 'lucide-react';
-import { Clock } from 'lucide-react';
-import { Share } from 'lucide-react';
 import { BgColorFromImage } from '@/hooks/useImageAverageColor';
-import { estimatePopularity } from "@/utils/estimatePopularity";
 import { adjustFontSize } from "@/utils/adjustFontSize";
-import Link from "next/link";
-import { Fragment } from "react";
-import Swiper from "swiper";
 import Carousel from "@/components/Carousel";
+import TrackTable from "@/components/TrackTable";
 
 type Props = {
 	item : Artist;
@@ -28,7 +21,9 @@ export default function View( {item, tracks, albums} : Props){
 
 	const titleStyle = adjustFontSize(item.name);
 
-	// FIXME: Divide  this section into components (artists, playlists, albums)
+	// FIXME: Divide  this section into components (artists, playlists, albums
+	// FIXME: add section tags
+	// FIXME: move first  div to layout 
   	return (
     	<div className="max-w-7xl bg-card flex flex-col gap-y-5 p-5 rounded-4xl " style={{ background: `linear-gradient(to bottom, ${bgColor} 0%, #121212 400px)` }}>
 			<div className="flex flex-col lg:flex-row gap-5 mt-20 w-full ">
@@ -47,55 +42,7 @@ export default function View( {item, tracks, albums} : Props){
 				</div>
       		</div>
 
-			<div className="flex flex-row gap-2 ">
-				<Button raw variant="play" onClick={handlePlay}/>
-				<Button raw variant="bar" onClick={handlePlay} Icon = {Heart}/>
-				<Button raw variant="bar" onClick={handlePlay} Icon = {ListPlus}/>
-				<Button raw variant="bar" onClick={handlePlay} Icon = {Share}/>
-			</div>
-
-			<h2 className="px-2 font-bold text-2xl">Popular tracks</h2> 
-
-			<div className = "grid grid-cols-[50px_1fr_200px_50px] px-2">
-				<div className="justify-self-end me-9">
-					<p>#</p>
-				</div>
-
-				<div>
-					<p>Title</p>
-				</div>
-
-				<div className="hidden lg:block justify-self-end me-5 md:me-15">
-					<p>Plays</p>
-				</div>
-				<div className="hidden lg:block justify-self-center">
-					<Clock/>			
-				</div>
-			</div>
-
-			<hr className="border-card-hover w-full border-t"/>
-
-			<ul className="flex flex-col gap-3 ">
-				{tracks? tracks.map((track, i) => (
-					<li key={track.id} className="items-center group py-1 grid grid-cols-[50px_1fr] lg:grid-cols-[50px_1fr_200px_50px] px-2 hover:bg-card-hover rounded-lg">
-						<div className="group-hover:hidden justify-self-end me-9">{i+1}</div>
-						<div className="hidden  group-hover:block pe-1"><Button raw variant="bar_play" onClick={handlePlay} className=""/></div>
-						<div className="relative">
-							<Link rel="preload" href={`/album/${track.album.id}`}> {track.title} </Link>
-							<div className="text-xs text-normal-pink">
-								{track.contributors.map((c, i) => (
-									<Fragment key={i}>
-									<Link rel="preload" href={`/artist/${c.id}`} className="hover:underline">{c.name}</Link>
-									{i < track.contributors.length - 1 && ", "}
-									</Fragment>
-								))}
-							</div>
-						</div>
-						<div className="hidden lg:block justify-self-end  me-5 md:me-15">{estimatePopularity(track.rank, track.release_date)}</div>
-						<div className="hidden lg:block justify-self-center" >{(track.duration/60).toFixed(0)}:{(track.duration%60)<10 ? `0${track.duration%60}`: track.duration%60}</div>
-					</li>
-				)) : ""}
-			</ul>
+			<TrackTable type="artist" tracks={tracks}/>
 		
 			<div className="flex flex-col gap-5 w-full h-[500px]">
 				<h2 className="px-2 font-bold text-2xl">Discography</h2> 

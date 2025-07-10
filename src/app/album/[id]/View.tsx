@@ -2,16 +2,11 @@
 
 import { useState, useEffect } from 'react';
 import Image from "next/image"
-import Button from "@/components/Button";
 import { Album, Track } from "@/types/types";
-import { Heart, Icon, ListPlus } from 'lucide-react';
-import { Clock } from 'lucide-react';
-import { Share } from 'lucide-react';
 import { BgColorFromImage } from '@/hooks/useImageAverageColor';
-import { estimatePopularity } from '@/utils/estimatePopularity';
 import { adjustFontSize } from '@/utils/adjustFontSize';
 import Link from 'next/link';
-import { Fragment } from 'react';
+import TrackTable from '@/components/TrackTable';
 
 type Props ={
 	item: Album;
@@ -48,54 +43,8 @@ export default function View({item, tracks}:Props){
 				</div>
       		</div>
 
-			<div className="flex flex-row gap-2 ">
-				<Button raw variant="play" onClick={handlePlay}/>
-				<Button raw variant="bar" onClick={handlePlay} Icon = {Heart}/>
-				<Button raw variant="bar" onClick={handlePlay} Icon = {ListPlus}/>
-				<Button raw variant="bar" onClick={handlePlay} Icon = {Share}/>
-			</div>
-
-			<div className = "grid grid-cols-[50px_1fr_200px_50px] px-2">
-				<div className="justify-self-end me-9">
-					<p>#</p>
-				</div>
-
-				<div>
-					<p>Title</p>
-				</div>
-
-				<div className="hidden lg:block justify-self-end me-5 md:me-15">
-					<p>Plays</p>
-				</div>
-				
-				<div className="hidden lg:block justify-self-center">
-					<Clock/>			
-				</div>
-			</div>
-
-			<hr className="border-card-hover w-full border-t"/>
-
-			<ul className="flex flex-col gap-3 ">
-				{tracks ? tracks.map((track, i) => (
-					<li key={track.id} className="items-center group py-1 grid grid-cols-[50px_1fr] lg:grid-cols-[50px_1fr_200px_50px] px-2 hover:bg-card-hover rounded-lg">
-						<div className="group-hover:hidden justify-self-end me-9">{i+1}</div>
-						<div className="hidden  group-hover:block pe-1"><Button raw variant="bar_play" onClick={handlePlay} className=""/></div>
-						<div className="relative ">
-							<Link rel="preload" href={`/album/${track.album.id}`}>{track.title}</Link>
-							<div className="text-xs text-normal-pink">
-								{track.contributors.map((c, i) => (
-									<Fragment key={i}>
-									<Link rel="preload" href={`/artist/${c.id}`} className="hover:underline">{c.name}</Link>
-									{i < track.contributors.length - 1 && ", "}
-									</Fragment>
-								))}
-							</div>
-						</div>
-						<div className="hidden lg:block justify-self-end  me-5 md:me-15">{estimatePopularity(track.rank, track.release_date)}</div>
-						<div className="hidden lg:block justify-self-center" >{(track.duration/60).toFixed(0)}:{(track.duration%60)<10 ? `0${track.duration%60}`: track.duration%60}</div>
-					</li>
-				)) : ""}
-			</ul>
+			<TrackTable type="default" tracks={tracks}/>
+			
 	</div>
     
   );

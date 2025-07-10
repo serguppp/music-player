@@ -1,9 +1,12 @@
+'use client'
+
 import Image from "next/image";
 import Link from "next/link";
 import type { ReactNode, ElementType } from "react";
 import { Artist, Album, Track, Playlist } from "@/types/types";
     
 import Button from "./Button";
+import { isAlbum, isArtist, isTrack } from "@/utils/typeGuards";
 
 type Props = { 
     item: Track | Album | Artist | Playlist;
@@ -24,17 +27,17 @@ export default function Card({
     let subtitle: string;
     let release_date: string;
 
-    if (item.type==="track"){ //Track
+    if (isTrack(item)){ //Track
         imageUrl = item.album.cover_xl;
         title = item.title;
         subtitle = item.artist.name;
         release_date = "";
-    } else if (item.type=="artist"){ // Artist
+    } else if (isArtist(item)){ // Artist
         imageUrl = item.picture_xl;
         title = item.name;
         subtitle = "Artist";
         release_date = "";
-    } else if (item.type=='album'){ //Album
+    } else if (isAlbum(item)){ //Album
         imageUrl = item.cover_xl;
         title = item.title;
         subtitle = item.artist.name;
@@ -46,7 +49,7 @@ export default function Card({
         release_date = "";
 
     }
-    const linkUrl = `/${item.type=="track" ? `album/${item.album.id}` : `${item.type}/${item.id}` }`;
+    const linkUrl = `/${isTrack(item) ? `album/${item.album.id}` : `${item.type}/${item.id}` }`;
 
     return(
         <div className="relative group w-fit">        
@@ -55,7 +58,6 @@ export default function Card({
                     <Image loading="lazy" src={imageUrl} width={256} height={256} alt={title} className={`${variant === "circle" ? "rounded-full" : "rounded-lg"} shadow-card shadow-lg`}></Image>
                     <p className="text-lg font-medium line-clamp-1">{title}</p>
                     <p className="text-sm font-extralight">{carousel ? release_date : subtitle}</p>
-                    <p></p>
                 </div>
             </Link>
 

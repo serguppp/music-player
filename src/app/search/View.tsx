@@ -4,44 +4,44 @@ import { useState } from "react";
 import { Track, Album, Playlist, Artist, ItemTypes } from "@/types/types";
 import Image from "next/image";
 import Link from "next/link";
+import TrackTable from "@/components/TrackTable";
+import { isArtist, isTrackArray } from "@/utils/typeGuards";
+
+type SearchResults = {
+	tracks: ItemTypes[];
+	artists: ItemTypes[];
+	albums: ItemTypes[];
+}
 
 type Props = {
-	results : ItemTypes[];
+	results :  SearchResults;
 }
 
 export default function View({ results }: Props) {
   return (
-    <div>
-      <ul>
-        {results.map((result, id) => (
-		
-          <li key={result.id} className="mb-4">
-			
-            {result.type === "track" && (
-				
-              <Link rel="preload" href={`album/${result.album.id}`}>	
-				<Image loading="lazy"  src={result.album.cover_xl} width={192} height={192} alt={'es'}></Image>
-                🎵 {result.title}  {result.artist.name}
-              </Link>
-            )}
-            {result.type === "album" && (
-              <p>
-                💿 {result.title} - {result.artist.name}
-              </p>
-            )}
-            {result.type === "artist" && (
-              <p>
-                🎤 {result.name}
-              </p>
-            )}
-            {result.type === "playlist" && (
-              <p>
-                📃 {result.title} - {result.creator.name}
-              </p>
-            )}
-          </li>
-        ))}
-      </ul>
+    <div className="bg-card flex flex-col gap-y-5 p-5 rounded-4xl">
+      <div className="flex flex-col lg:flex-row gap-5 mt-20 w-full ">
+		<div className="">
+			<TrackTable type="search" tracks={isTrackArray(results.tracks) ? results.tracks : [] }/>
+		</div>
+
+		<div className="grid">
+			<ul>
+				{results.artists.map((result, id) => (
+				<li key={result.id} className="mb-4">
+					{isArtist(result) && (
+					<Link rel="preload" href={`artist/${result.id}`}>	
+						<Image loading="lazy"  src={result.picture_xl} width={192} height={192} alt={'es'}></Image>
+						🎵 {result.name}
+					</Link>
+					)}
+				</li>
+				))}
+			</ul>
+		</div>
+
+      </div>
+      
     </div>
   );
 }

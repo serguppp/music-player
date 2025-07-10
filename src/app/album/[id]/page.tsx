@@ -2,12 +2,13 @@ import { fetchItemByID } from "@/lib/data";
 import View from "./View";
 import Page404 from "@/components/Page404";
 import { getFullTrackDetails } from "@/lib/tracks";
+import { isAlbum } from "@/utils/typeGuards";
 
 export default async function Home({params} : {params : { id:string }}){
     const id = await params.id;
     const item = await fetchItemByID("album", id);
     
-    if (!item || item.type != "album"){
+    if (!item || !isAlbum(item)){
         return (
             <Page404/>
         )
