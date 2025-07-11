@@ -34,3 +34,13 @@ body {
     background-position: center;
     background-repeat: no-repeat;
 }
+
+.custom-range::-webkit-slider-thumb {
+  -webkit-appearance: none; 
+  appearance: none;
+  width: 12px; 
+  height: 12px; 
+  background: var(--normal-pink);
+  border-radius: 50%; 
+  cursor: pointer; 
+}

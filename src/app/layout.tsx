@@ -4,6 +4,8 @@ import "./globals.css";
 
 import Navbar from "@/components/Navbar";
 import Sidebar from "@/components/Sidebar";
+import { PlayerProvider } from "@/context/PlayerContext";
+import AudioBar from "@/components/Audiobar";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -28,15 +30,18 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased overflow-x-hidden`}>
-        <div className="flex flex-col relative">
-          <Sidebar/>
-          <Navbar />
-          <main className="relative flex-1 min-w-0 ">
-              <div className="flex lg:p-8 lg:ml-64 flex-col font-[family-name:var(--font-geist-sans)] ">
-                {children}
-              </div>
-          </main>
-        </div>
+        <PlayerProvider>
+          <div className="flex flex-col relative">
+            <Sidebar/>
+            <Navbar />
+            <main className="relative flex-1 min-w-0 ">
+                <div className="flex lg:p-8 lg:ml-64 flex-col font-[family-name:var(--font-geist-sans)] ">
+                  {children}
+                </div>
+            </main>
+          </div>
+          <AudioBar/>
+        </PlayerProvider>
       </body>
     </html>
   );

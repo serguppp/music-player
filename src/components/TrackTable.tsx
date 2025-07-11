@@ -2,11 +2,11 @@ import Link from "next/link"
 import { Fragment } from "react"
 import Image from "next/image"
 import Button from "./Button"
-import MediaControls from "./MediaControls"
-import { ItemTypes, Track } from "@/types/types"
+import { Track } from "@/types/types"
 import { estimatePopularity } from "@/utils/estimatePopularity"
 
 import { Clock, Heart, ListPlus, Share } from "lucide-react"
+import { usePlayback } from "@/hooks/usePlayback"
 
 
 type Props = {
@@ -15,12 +15,23 @@ type Props = {
 }
 
 export default function TrackTable( {type, tracks} : Props){
-    const handlePlay = () =>{}
-    if (type=="search") tracks = tracks.slice(0,5);
+    const { startPlayback } = usePlayback();
+    
+    if (type=="search"){
+        tracks = tracks.slice(0,5);
+    }
+
     return( 
         <div className="flex flex-col gap-y-5">
             {/* Media controls Bar*/}
-            {type != "search" ? <MediaControls/> : "" }
+            {type != "search" ?
+            <div className="flex flex-row gap-2 ">
+                <Button raw variant="play" onClick={()=>{}}/>
+                <Button raw variant="bar" onClick={()=>{}} Icon = {Heart}/>
+                <Button raw variant="bar" onClick={()=>{}} Icon = {ListPlus}/>
+                <Button raw variant="bar" onClick={()=>{}} Icon = {Share}/>
+            </div>
+            : "" }
 
             {type === "artist" ? <h2 className="px-2 font-bold text-2xl">Popular tracks</h2> : ""}
 
@@ -38,7 +49,7 @@ export default function TrackTable( {type, tracks} : Props){
                     <p>{type === "playlist"  ? "Album" : "Plays"}</p>
                 </div>
 
-                <div className="hidden lg:block justify-self-end ">
+                <div className="hidden lg:block justify-self-center ">
                     <Clock/>			
                 </div>
             </div>
@@ -50,7 +61,7 @@ export default function TrackTable( {type, tracks} : Props){
                     {tracks.map((track, i) => (
                         <li key={track.id} className="items-center group py-1 grid grid-cols-[50px_1fr] lg:grid-cols-[50px_1fr_200px_50px] px-2 hover:bg-card-hover rounded-lg">
                             <div className="group-hover:hidden justify-self-end me-9">{i+1}</div>
-                            <div className="hidden  group-hover:block"><Button raw variant="bar_play" onClick={handlePlay} className=""/></div>
+                            <div className="hidden  group-hover:block"><Button raw variant="bar_play" onClick={startPlayback(track)} className=""/></div>
                             <div className="flex gap-3 items-center">
                                 {type !== "default" ?
                                 <Image src={track.album.cover_xl} width={192} height={192} alt={track.album.title} className="rounded-sm w-10 h-10"></Image>

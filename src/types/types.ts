@@ -34,6 +34,7 @@ export type Track = {
     release_date: string;
     duration: number;
     contributors: { id: string, name: string}[];
+    preview: string;
     type: 'track';
 };
 
