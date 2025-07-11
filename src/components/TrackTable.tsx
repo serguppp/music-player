@@ -16,7 +16,7 @@ type Props = {
 
 export default function TrackTable( {type, tracks} : Props){
     const handlePlay = () =>{}
-
+    if (type=="search") tracks = tracks.slice(0,5);
     return( 
         <div className="flex flex-col gap-y-5">
             {/* Media controls Bar*/}
@@ -46,9 +46,8 @@ export default function TrackTable( {type, tracks} : Props){
 			<hr className="border-card-hover w-full border-t -my-3"/>
 
             {/* Table content */}
-            <div>
                 <ul className="flex flex-col gap-3 ">
-                    {tracks? tracks.map((track, i) => (
+                    {tracks.map((track, i) => (
                         <li key={track.id} className="items-center group py-1 grid grid-cols-[50px_1fr] lg:grid-cols-[50px_1fr_200px_50px] px-2 hover:bg-card-hover rounded-lg">
                             <div className="group-hover:hidden justify-self-end me-9">{i+1}</div>
                             <div className="hidden  group-hover:block"><Button raw variant="bar_play" onClick={handlePlay} className=""/></div>
@@ -77,9 +76,8 @@ export default function TrackTable( {type, tracks} : Props){
                             }
                             <div className="hidden lg:block justify-self-center" >{(track.duration/60).toFixed(0)}:{(track.duration%60)<10 ? `0${track.duration%60}`: track.duration%60}</div>
                         </li>
-                    )) : ""}
+                    ))}
                 </ul>
-            </div>
         </div>
     )
 

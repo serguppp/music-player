@@ -1,7 +1,5 @@
 import { Album, Artist, Playlist, Track, ItemTypes } from "@/types/types";
 
-
-//FIXME: change type:string to type:ItemTypes
 // ?FIXME?: maybe change  data.ts and tracks.ts to React Query (TanStack Query)
 
 const DEEZER_API_URL = "https://api.deezer.com";

@@ -6,6 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 import TrackTable from "@/components/TrackTable";
 import { isArtist, isTrackArray } from "@/utils/typeGuards";
+import Shelf from "@/components/Shelf";
 
 type SearchResults = {
 	tracks: ItemTypes[];
@@ -19,29 +20,26 @@ type Props = {
 
 export default function View({ results }: Props) {
   return (
-    <div className="bg-card flex flex-col gap-y-5 p-5 rounded-4xl">
-      <div className="flex flex-col lg:flex-row gap-5 mt-20 w-full ">
-		<div className="">
-			<TrackTable type="search" tracks={isTrackArray(results.tracks) ? results.tracks : [] }/>
-		</div>
+    <div className="bg-background flex flex-col gap-y-5 p-5 rounded-4xl">
+      <div className="flex flex-col gap-10 mt-20 min-w-full ">
+			<h2 className="px-2 font-bold text-2xl">Tracks</h2> 
 
-		<div className="grid">
-			<ul>
-				{results.artists.map((result, id) => (
-				<li key={result.id} className="mb-4">
-					{isArtist(result) && (
-					<Link rel="preload" href={`artist/${result.id}`}>	
-						<Image loading="lazy"  src={result.picture_xl} width={192} height={192} alt={'es'}></Image>
-						🎵 {result.name}
-					</Link>
-					)}
-				</li>
-				))}
-			</ul>
-		</div>
+			<div className="w-full">
+				<TrackTable type="search" tracks={isTrackArray(results.tracks) ? results.tracks : [] }/>
+			</div>
+			
+			<div>
+				<h2 className="px-2 font-bold text-2xl">Authors</h2> 
+				<Shelf items={results.artists.slice(0,5)} variant="circle"></Shelf>
+			</div>
 
-      </div>
-      
+			<div>
+				<h2 className="px-2 font-bold text-2xl">Albums</h2> 
+				<Shelf items={results.albums.slice(0,5)} variant="square"></Shelf>
+			</div>
+
+		</div>
     </div>
   );
 }
+

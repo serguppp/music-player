@@ -20,10 +20,7 @@ export default function View( {item, tracks, albums} : Props){
 	}
 
 	const titleStyle = adjustFontSize(item.name);
-
-	// FIXME: Divide  this section into components (artists, playlists, albums
-	// FIXME: add section tags
-	// FIXME: move first  div to layout 
+	// FIXME: add view all tracks
   	return (
     	<div className="max-w-7xl bg-card flex flex-col gap-y-5 p-5 rounded-4xl " style={{ background: `linear-gradient(to bottom, ${bgColor} 0%, #121212 400px)` }}>
 			<div className="flex flex-col lg:flex-row gap-5 mt-20 w-full ">

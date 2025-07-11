@@ -21,7 +21,7 @@ export default function View( {item, tracks} : Props){
 	const titleStyle = adjustFontSize(item.title);
 
   return (
-    	<div className="bg-card flex flex-col gap-y-5 p-5 rounded-4xl " style={{ background: `linear-gradient(to bottom, ${bgColor} 0%, #121212 400px)` }}>
+		<div className="bg-card flex flex-col gap-y-5 p-5 rounded-4xl " style={{ background: `linear-gradient(to bottom, ${bgColor} 0%, #121212 400px)` }}>
 			<div className="flex flex-col lg:flex-row gap-5 mt-20 w-full ">
 				<div className="xl:min-w-52 xl:min-h-52">
 					<Image loading="lazy" src={item.picture_xl} alt={'Album Cover'}  width={192} height={192} className="w-52 h-52 rounded-2xl shadow-lg"></Image>

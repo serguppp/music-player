@@ -1,11 +1,11 @@
 'use client'
 
 import Button from '@/components/Button'
-import { House, Compass, Disc, MicVocal, Clock, History, Heart, ListMusic, Settings, LogOut } from 'lucide-react'
+import { House, Compass, Disc, MicVocal, Clock, History, Heart, ListMusic, Settings, User } from 'lucide-react'
 
-export default function SideBar(){
+export default function Sidebar(){
     return(
-        <aside className="bg-background h-full w-64 py-8 px-16 hidden md:grid md:justify-items-center fixed top-0 left-0
+        <aside className="bg-background h-full z-2 w-64 py-8 px-16 hidden lg:grid lg:justify-items-center fixed top-0 left-0
             after:content-[''] 
             after:absolute 
             after:top-0 
@@ -47,7 +47,7 @@ export default function SideBar(){
 
                 <nav className="flex flex-col space-y-6 mb-4">
                     <Button active variant="side_bar" href="/settings" Icon={Settings}>Settings</Button>
-                    <Button active variant="side_bar" href="/logout" className="text-normal-pink" Icon={LogOut}>Logout</Button>
+                    <Button active variant="side_bar" href="/account" className="text-normal-pink" Icon={User}>Account</Button>
                 </nav>
 
             </div>
