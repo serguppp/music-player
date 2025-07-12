@@ -15,8 +15,10 @@ type Props = {
 }
 
 export default function TrackTable( {type, tracks} : Props){
-    const { startPlayback } = usePlayback();
+    const { playSingleTrack, playTracklist } = usePlayback();
     
+    let tracksCopy = [...tracks];
+
     if (type=="search"){
         tracks = tracks.slice(0,5);
     }
@@ -26,7 +28,7 @@ export default function TrackTable( {type, tracks} : Props){
             {/* Media controls Bar*/}
             {type != "search" ?
             <div className="flex flex-row gap-2 ">
-                <Button raw variant="play" onClick={()=>{}}/>
+                <Button raw variant="play" onClick={playTracklist(tracksCopy)}/>
                 <Button raw variant="bar" onClick={()=>{}} Icon = {Heart}/>
                 <Button raw variant="bar" onClick={()=>{}} Icon = {ListPlus}/>
                 <Button raw variant="bar" onClick={()=>{}} Icon = {Share}/>
@@ -61,11 +63,11 @@ export default function TrackTable( {type, tracks} : Props){
                     {tracks.map((track, i) => (
                         <li key={track.id} className="items-center group py-1 grid grid-cols-[50px_1fr] lg:grid-cols-[50px_1fr_200px_50px] px-2 hover:bg-card-hover rounded-lg">
                             <div className="group-hover:hidden justify-self-end me-9">{i+1}</div>
-                            <div className="hidden  group-hover:block"><Button raw variant="bar_play" onClick={startPlayback(track)} className=""/></div>
+                            <div className="hidden  group-hover:block"><Button raw variant="bar_play" onClick={playSingleTrack(track)} className=""/></div>
                             <div className="flex gap-3 items-center">
                                 {type !== "default" ?
                                 <Image src={track.album.cover_xl} width={192} height={192} alt={track.album.title} className="rounded-sm w-10 h-10"></Image>
-                                : "" }
+                                : null }
                                 <div>
                                     <Link rel="preload" href={`/album/${track.album.id}`}> {track.title} </Link>
                                     <div className="text-xs text-normal-pink">

@@ -1,30 +1,49 @@
 import { ItemTypes, Track } from "@/types/types";
 import { fetchItemByID } from "@/lib/data";
 import { isTrack } from "@/utils/typeGuards";
+import { delay } from "@/lib/data";
 
-// FIXME: Add timeout between api requests
+const API_DELAY = 0.01;
 
 // This function returns full details about tracks.
 // It is used to fetch full track information when tracks are part of albums, artists, or playlists, 
 // as these are often represented by partial track objects.
 
-export async function getFullTrackDetails(tracks : Track[]) : Promise<Track[]>{
-    const result = tracks ? (
-        await Promise.all(
-            tracks.map((track) => fetchItemByID("track", track.id)))).filter((t): t is Track => t !== null && isTrack(t))
-            : [];
-    return result;
+export async function getFullTrackDetails(tracks: Track[]): Promise<Track[]> {
+    if (!tracks) return [];
+
+    const detailedTracks: Track[] = [];
+        for (const track of tracks) {
+        const fullTrack = await fetchItemByID("track", track.id);
+        
+        if (fullTrack && isTrack(fullTrack)) {
+            detailedTracks.push(fullTrack);
+        }
+        await delay(API_DELAY); 
+    }
+
+    return detailedTracks;
 }
 
-export async function getFullItemListDetails(items : ItemTypes[], type : string) : Promise<ItemTypes[]>{
-    const result = items ? (
-        await Promise.all(
-            items.map((item) => fetchItemByID(type, item.id)))).filter((t): t is ItemTypes => t !== null && t.type === type)
-            : [];
-    return result;
+export async function getFullItemListDetails(items: ItemTypes[], type: string): Promise<ItemTypes[]> {
+    if (!items) return [];
+
+    const detailedItems: ItemTypes[] = [];
+
+    for (const item of items) {
+        const fullItem = await fetchItemByID(type, item.id);
+        
+        if (fullItem && fullItem.type === type) {
+            detailedItems.push(fullItem);
+        }
+
+        await delay(API_DELAY);
+    }
+    
+    return detailedItems;
 }
 
 export async function getFullItemDetails(item : ItemTypes, type : string) : Promise<ItemTypes | null>{
-    const result = item ? fetchItemByID(type, item.id) : null;
-    return result;
+    const fullItem = item ? fetchItemByID(type, item.id) : null;
+    return fullItem;
 }

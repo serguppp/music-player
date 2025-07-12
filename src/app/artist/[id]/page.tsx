@@ -11,7 +11,7 @@ export default async function Home({params} : {params : { id:string }}){
 
 	if (!item || !isArtist(item)){
 		return (
-				<Page404/>
+			<Page404/>
 		)
 	}
 	else{

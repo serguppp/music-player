@@ -1,23 +1,26 @@
-import { isAlbum, isTrack } from '@/utils/typeGuards';
+import { isAlbum, isTrack, isTrackArray } from '@/utils/typeGuards';
 import { usePlayer } from './usePlayer';
-import { ItemTypes } from '@/types/types';
+import { ItemTypes, Track } from '@/types/types';
+
+  // FIXME: add artists, playlists, queue -> in playerContext
 
 export function usePlayback() {
   const { playTrack } = usePlayer();
 
-  const startPlayback = (item: ItemTypes) => {
+  const playSingleTrack = (track: Track, tracklist?: Track[])=>{
+    return (e: React.MouseEvent)=>{
+      e.stopPropagation();
+      playTrack(track);
+    }
+  }
+
+  const playTracklist = (tracks: Track[]) =>{
     return (e: React.MouseEvent) =>{
       e.stopPropagation();
-
-      if (isTrack(item)) {
-        playTrack(item);
-      } else if (isAlbum(item) && item.tracks && item.tracks.data.length > 0) {
-        playTrack(item.tracks.data[0]);
+      if(tracks && tracks.length>0){
+        playTrack(tracks[0], tracks);
       }
-      // FIXME: add artists, playlists, queue -> in playerContext
     }
-
-  };
-
-  return { startPlayback };
+  }
+  return { playSingleTrack, playTracklist };
 }
