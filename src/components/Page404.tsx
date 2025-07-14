@@ -1,7 +1,7 @@
-'use client'
+"use client";
 
-import Button from '@/components/Button'
-import { AlertTriangle } from 'lucide-react'
+import Button from "@/components/Button";
+import { AlertTriangle } from "lucide-react";
 
 export default function Page404() {
   return (
@@ -16,10 +16,14 @@ export default function Page404() {
         Oops! This page could not be found.
       </p>
       <div className="mt-10">
-        <Button href="/" variant="fill" className="justify-center text-lg px-8 py-3" >
+        <Button
+          href="/"
+          variant="fill"
+          className="justify-center text-lg px-8 py-3"
+        >
           Come back to main page
         </Button>
       </div>
     </div>
-  )
+  );
 }

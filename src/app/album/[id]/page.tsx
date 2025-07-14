@@ -4,14 +4,8 @@ import Page404 from "@/components/Page404";
 import { getFullTrackDetails } from "@/lib/tracks";
 import { isAlbum } from "@/utils/typeGuards";
 
-type Props = {
-  params: {
-    id: string;
-  };
-};
-
-export default async function Home({ params }: Props) {
-  const id = params.id;
+export default async function Page({params}: {params: Promise<{ id: string }>}) {
+  const {id} = await(params);
   const item = await fetchItemByID("album", id);
 
   if (!item || !isAlbum(item)) {

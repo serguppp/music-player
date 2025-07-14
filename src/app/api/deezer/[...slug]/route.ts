@@ -2,10 +2,11 @@ import { NextResponse } from 'next/server';
 
 export async function GET(
   request: Request,
-  { params }: { params: { slug: string[] } }
+  context: { params: { slug: string[] } }
 ) {
+  const { params } = context;
   const path = params.slug.join('/');
-  
+
   const { search } = new URL(request.url);
 
   const deezerApiUrl = `https://api.deezer.com/${path}${search}`;
@@ -25,7 +26,7 @@ export async function GET(
     return NextResponse.json(data);
 
   } catch (error) {
-    console.error('Dezer API error', error);
-    return new NextResponse('Deezer API error', { status: 500 });
+    console.error('Deezer API error', error);
+    return new NextResponse('Błąd serwera wewnętrznego', { status: 500 });
   }
 }

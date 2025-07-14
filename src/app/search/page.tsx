@@ -9,27 +9,25 @@ type Props = {
   };
 };
 
-export default async function Home({searchParams} : Props){
-	const q = searchParams.q;
-	if (!q){
-		redirect("/");
-	} else{
-		const searchedTracks = await fetchItems(q, "track");
-		const searchedArtists = await fetchItems(q, "artist");
-		const searchedAalbums = await fetchItems(q, "album");
-		
-		const tracks = await getFullItemListDetails(searchedTracks, "track");
-		const artists = await getFullItemListDetails(searchedArtists, "artist");
-		const albums  = await getFullItemListDetails(searchedAalbums, "album");
+export default async function Page({ searchParams }: Props) {
+  const q = searchParams.q;
+  if (!q) {
+    redirect("/");
+  } else {
+    const searchedTracks = await fetchItems(q, "track");
+    const searchedArtists = await fetchItems(q, "artist");
+    const searchedAalbums = await fetchItems(q, "album");
 
-		const results = {
-			tracks: tracks || [],
-			artists: artists || [],
-			albums: albums || [],
-		};
-		
-		return(
-				<View results={results}/>
-		)
-	}
+    const tracks = await getFullItemListDetails(searchedTracks, "track");
+    const artists = await getFullItemListDetails(searchedArtists, "artist");
+    const albums = await getFullItemListDetails(searchedAalbums, "album");
+
+    const results = {
+      tracks: tracks || [],
+      artists: artists || [],
+      albums: albums || [],
+    };
+
+    return <View results={results} />;
+  }
 }

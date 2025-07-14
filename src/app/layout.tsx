@@ -3,7 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
 import Navbar from "@/components/Navbar";
-import Sidebar from "@/components/Sidebar"; 
+import Sidebar from "@/components/Sidebar";
 import { PlayerProvider } from "@/context/PlayerContext";
 import AudioBar from "@/components/Audiobar";
 
@@ -29,18 +29,20 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased overflow-x-hidden`}>
+      <body
+        className={`${geistSans.variable} ${geistMono.variable} antialiased overflow-x-hidden`}
+      >
         <PlayerProvider>
           <div className="flex flex-col relative">
-            <Sidebar/>
+            <Sidebar />
             <Navbar />
             <main className="relative flex-1 min-w-0 mb-40 ">
-                <div className="flex lg:p-8 lg:ml-64 flex-col font-[family-name:var(--font-geist-sans)] ">
-                  {children}
-                </div>
+              <div className="flex lg:p-8 lg:ml-64 flex-col font-[family-name:var(--font-geist-sans)] ">
+                {children}
+              </div>
             </main>
           </div>
-          <AudioBar/>
+          <AudioBar />
         </PlayerProvider>
       </body>
     </html>
