@@ -1,10 +1,16 @@
-import { Track, Album, Artist, Playlist } from "@/types/types";
-import { fetchItem, fetchItems } from "@/lib/data";
+import { fetchItems } from "@/lib/data";
 import View from "./View";
 import { getFullItemListDetails } from "@/lib/tracks";
 import { redirect } from "next/navigation";
-export default async function Home({searchParams} : {searchParams : {q : string}}){
-	const { q } = await searchParams;
+
+type Props = {
+  searchParams: {
+    q: string;
+  };
+};
+
+export default async function Home({searchParams} : Props){
+	const q = searchParams.q;
 	if (!q){
 		redirect("/");
 	} else{

@@ -1,7 +1,7 @@
 'use client'
 
 import Image from "next/image"
-import { Album, Track, Playlist, ItemTypes } from "@/types/types";
+import { Track, Playlist } from "@/types/types";
 import { BgColorFromImage } from '@/hooks/useImageAverageColor';
 import { adjustFontSize } from "@/utils/adjustFontSize";
 import TrackTable from "@/components/TrackTable";
@@ -13,10 +13,6 @@ type Props = {
 
 export default function View( {item, tracks} : Props){
 	const bgColor = BgColorFromImage(item.picture_xl);
-
-	const handlePlay = () =>{
-		console.log("Playing:", item.title);
-	}
 
 	const titleStyle = adjustFontSize(item.title);
 

@@ -1,8 +1,8 @@
-import { Album, Artist, Playlist, Track, ItemTypes } from "@/types/types";
+import { Album, Track, ItemTypes } from "@/types/types";
 
-// ?FIXME?: maybe change  data.ts and tracks.ts to React Query (TanStack Query)
+const IS_SERVER = typeof window === 'undefined';
 
-const DEEZER_API_URL = "https://api.deezer.com";
+const DEEZER_API_URL = IS_SERVER ? "https://api.deezer.com" : "/api/deezer";
 
 export function delay(ms: number) {
   return new Promise(resolve => setTimeout(resolve, ms));

@@ -8,6 +8,7 @@ export default async function Home() {
   const topArtists = await fetchTop("artists");
   const topPlaylists = await fetchTop("playlists");  
   const newAlbums = await fetchNewAlbums();
+  
   return (
     <div className="flex flex-col gap-y-20">
         <section className="hero-bg min-h-screen lg:min-h-[90vh] rounded-4xl flex items-center p-5 lg:p-10">

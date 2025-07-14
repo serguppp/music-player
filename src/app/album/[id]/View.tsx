@@ -1,6 +1,5 @@
 'use client'
 
-import { useState, useEffect } from 'react';
 import Image from "next/image"
 import { Album, Track } from "@/types/types";
 import { BgColorFromImage } from '@/hooks/useImageAverageColor';
@@ -15,10 +14,6 @@ type Props ={
 
 export default function View({item, tracks}:Props){
 	const bgColor = BgColorFromImage(item.cover_xl)
-
-	const handlePlay = () =>{
-		console.log("Playing:", item.title);
-	}
 
 	const titleStyle = adjustFontSize(item.title);
 

@@ -1,0 +1,31 @@
+import { NextResponse } from 'next/server';
+
+export async function GET(
+  request: Request,
+  { params }: { params: { slug: string[] } }
+) {
+  const path = params.slug.join('/');
+  
+  const { search } = new URL(request.url);
+
+  const deezerApiUrl = `https://api.deezer.com/${path}${search}`;
+
+  try {
+    const apiResponse = await fetch(deezerApiUrl, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+
+    if (!apiResponse.ok) {
+      return new NextResponse(apiResponse.statusText, { status: apiResponse.status });
+    }
+
+    const data = await apiResponse.json();
+    return NextResponse.json(data);
+
+  } catch (error) {
+    console.error('Dezer API error', error);
+    return new NextResponse('Deezer API error', { status: 500 });
+  }
+}

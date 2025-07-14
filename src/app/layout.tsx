@@ -34,7 +34,7 @@ export default function RootLayout({
           <div className="flex flex-col relative">
             <Sidebar/>
             <Navbar />
-            <main className="relative flex-1 min-w-0 ">
+            <main className="relative flex-1 min-w-0 mb-40 ">
                 <div className="flex lg:p-8 lg:ml-64 flex-col font-[family-name:var(--font-geist-sans)] ">
                   {children}
                 </div>

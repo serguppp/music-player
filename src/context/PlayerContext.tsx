@@ -1,6 +1,6 @@
 'use client'
 
-import { createContext, useState, useContext, ReactNode, useRef, useEffect } from 'react';
+import { createContext, useState, ReactNode, useRef, useEffect } from 'react';
 import { Track } from '@/types/types';
 
 type PlayerContextType = {
@@ -22,7 +22,7 @@ export const PlayerContext = createContext<PlayerContextType | undefined>(undefi
 
 export function PlayerProvider({children} : {children : ReactNode}){
     const [currentTrack, setCurrentTrack] = useState<Track | null>(null);
-    const [tracklist, setTracklist] = useState<Track[] | []>([]);
+    const [tracklist, setTracklist] = useState<Track[]>([]);
     const [currentIndex, setCurrentIndex] = useState(0);
     const [isPlaying, setIsPlaying] = useState(false);
     const [volume, setVolume] = useState(0.5);
@@ -48,18 +48,16 @@ export function PlayerProvider({children} : {children : ReactNode}){
             audioRef.current.volume=volume;
         }
     }, [volume]);
-
-    // Functions for player management
-    //FIXME: track cant be played more that one time
-    //Prev should restart single track playing
-    //Next should finish single trakc playing
     
     const playTrack = (track : Track, newTracklist?: Track[])=>{
-        const list = newTracklist;
-        if (list){
-            const trackIndex = list.findIndex(t=>t.id === track.id);
-            setTracklist(list);
-            setCurrentIndex(trackIndex  !== -1 ? trackIndex: 0);
+        if (newTracklist && newTracklist.length > 0){
+            const trackIndex = newTracklist.findIndex(t=>t.id === track.id);
+            setTracklist(newTracklist);
+            setCurrentIndex(trackIndex  !== -1 ? trackIndex : 0);
+        }
+        else{
+            setTracklist([]);
+            setCurrentIndex(0);
         }
  
         setCurrentTrack(track);
@@ -67,17 +65,32 @@ export function PlayerProvider({children} : {children : ReactNode}){
     }
 
     const playNext = () => {
-        if (tracklist.length === 0 ) return;
-        const nextIndex = (currentIndex + 1) % tracklist.length;
+        if (tracklist.length === 0 || currentIndex >= tracklist.length -1){
+            seek(30); //currentTrack.duration
+            if(isPlaying) setIsPlaying(false);
+            return;
+        }
+        const nextIndex = (currentIndex  + 1) % tracklist.length;
         setCurrentIndex(nextIndex);
         setCurrentTrack(tracklist[nextIndex]);
+        setIsPlaying(true);
     }
 
     const playPrevious = () => {
-        if (tracklist.length === 0 ) return;
+        if (audioRef.current && audioRef.current.currentTime > 3){
+            seek(0);
+            if(!isPlaying) setIsPlaying(true);
+            return;
+        } 
+        
+        if (tracklist.length === 0 || currentIndex <= 0){
+            seek(0);
+            return;
+        } 
         const prevIndex = (currentIndex - 1 + tracklist.length) % tracklist.length;
         setCurrentIndex(prevIndex);
         setCurrentTrack(tracklist[prevIndex]);
+        setIsPlaying(true);
     }
 
     const togglePlay = () => {

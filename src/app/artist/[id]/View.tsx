@@ -1,4 +1,5 @@
 'use client'
+
 import Image from "next/image"
 import { Artist, Album, Track, ItemTypes } from "@/types/types";
 import { BgColorFromImage } from '@/hooks/useImageAverageColor';
@@ -14,11 +15,6 @@ type Props = {
 
 export default function View( {item, tracks, albums} : Props){
 	const bgColor = BgColorFromImage(item.picture_xl);
-
-	const handlePlay = () =>{
-		console.log("Playing:", item.name);
-	}
-
 	const titleStyle = adjustFontSize(item.name);
 	// FIXME: add view all tracks
   	return (

@@ -1,11 +1,8 @@
 'use client'
 
-import { useState } from "react";
-import { Track, Album, Playlist, Artist, ItemTypes } from "@/types/types";
-import Image from "next/image";
-import Link from "next/link";
+import { ItemTypes } from "@/types/types";
 import TrackTable from "@/components/TrackTable";
-import { isArtist, isTrackArray } from "@/utils/typeGuards";
+import { isTrackArray } from "@/utils/typeGuards";
 import Shelf from "@/components/Shelf";
 
 type SearchResults = {

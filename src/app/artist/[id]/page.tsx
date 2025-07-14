@@ -1,12 +1,17 @@
 import { fetchArtistAlbums, fetchArtistTopTracks, fetchItemByID } from "@/lib/data";
-import { Track } from "@/types/types";
 import View from "./View";
 import Page404 from "@/components/Page404";
-import { getFullItemDetails, getFullItemListDetails, getFullTrackDetails } from "@/lib/tracks";
+import { getFullItemListDetails, getFullTrackDetails } from "@/lib/tracks";
 import { isArtist } from "@/utils/typeGuards";
 
-export default async function Home({params} : {params : { id:string }}){
-	const id  =  await params.id;
+type Props = {
+  params: {
+    id: string;
+  };
+};
+
+export default async function Home({params} : Props){
+	const id  =  params.id;
 	const item = await fetchItemByID("artist", id);
 
 	if (!item || !isArtist(item)){
@@ -22,7 +27,7 @@ export default async function Home({params} : {params : { id:string }}){
 		const albums = artistAlbums ? await getFullItemListDetails(artistAlbums, "album") : [];
 
 		return(
-				<View item={item} tracks={tracks} albums={albums}/>
+			<View item={item} tracks={tracks} albums={albums}/>
 		)
 	}
 

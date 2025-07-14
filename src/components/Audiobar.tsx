@@ -3,7 +3,6 @@
 import { usePlayer } from '@/hooks/usePlayer';
 import Image from 'next/image';
 import { Play, Pause, SkipBack, SkipForward, Volume2, VolumeX } from 'lucide-react';
-import { usePlayback } from '@/hooks/usePlayback';
 
 export default function AudioBar() {
   const { currentTrack, isPlaying, togglePlay, volume, setVolume, duration, currentTime, seek, playNext, playPrevious } = usePlayer();
@@ -12,6 +11,7 @@ export default function AudioBar() {
     return null;
   }
 
+  // FIXME: move to utils
   const formatTime = (seconds: number) => {
     const minutes = Math.floor(seconds / 60);
     const secs = Math.floor(seconds % 60);
