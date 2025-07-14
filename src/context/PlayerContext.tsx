@@ -122,8 +122,8 @@ export function PlayerProvider({children} : {children : ReactNode}){
         <PlayerContext.Provider value = {{currentTrack, tracklist, isPlaying,  volume, duration, currentTime, playTrack, playNext, playPrevious, togglePlay, setVolume, seek}}>
             {children}
             <audio ref={audioRef} src={currentTrack?.preview}
-                    onTimeUpdate={handleTimeUpdate} onLoadedData={handleLoadedData}
-                    onEnded={playNext}/>
+                onTimeUpdate={handleTimeUpdate} onLoadedData={handleLoadedData}
+                onEnded={playNext}/>
         </PlayerContext.Provider>
     )
 };

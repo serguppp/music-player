@@ -26,8 +26,8 @@ export default function Sidebar(){
 				<nav className="flex flex-col space-y-6 mb-4">
 						<Button active variant="side_bar" href="/" Icon={House}>Home</Button>
 						<Button active variant="side_bar" href="/discover" Icon={Compass} >Discover</Button>
-						<Button active variant="side_bar" href="/albums" Icon={Disc}>Albums</Button>
-						<Button active variant="side_bar" href="/artists" Icon={MicVocal}>Artists</Button>
+						{/*<Button active variant="side_bar" href="/albums" Icon={Disc}>Albums</Button>
+						<Button active variant="side_bar" href="/artists" Icon={MicVocal}>Artists</Button>*/}
 				</nav>
 
 				<h6 className="text-xs font-semibold text-normal-pink mb-4">
@@ -35,8 +35,8 @@ export default function Sidebar(){
 				</h6>
 
 				<nav className="flex flex-col space-y-6 mb-4">
-						<Button active variant="side_bar" href="/recentlyadded" Icon={Clock}>Recently added</Button>
-						<Button active variant="side_bar" href="/mostplayed" Icon={History}>Most played</Button>
+						{/*<Button active variant="side_bar" href="/recentlyadded" Icon={Clock}>Recently added</Button>
+						<Button active variant="side_bar" href="/mostplayed" Icon={History}>Most played</Button>*/}
 						<Button active variant="side_bar" href="/favourites" Icon={Heart}>Your favourites</Button>
 						<Button active variant="side_bar" href="/playlists" Icon={ListMusic}>Your playlists</Button>
 				</nav>
@@ -46,7 +46,7 @@ export default function Sidebar(){
 				</h6>
 
 				<nav className="flex flex-col space-y-6 mb-4">
-						<Button active variant="side_bar" href="/settings" Icon={Settings}>Settings</Button>
+						{/*<Button active variant="side_bar" href="/settings" Icon={Settings}>Settings</Button>*/}
 						<Button active variant="side_bar" href="/account" className="text-normal-pink" Icon={User}>Account</Button>
 				</nav>
 			</div>

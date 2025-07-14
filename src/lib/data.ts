@@ -48,14 +48,14 @@ export async function fetchItemByID(type:string, id: string) : Promise<ItemTypes
 }
 
 // Fetch top global items selected by Deezer team 
-export async function fetchTop(type: string) : Promise<ItemTypes[]>{
-	const url = `${DEEZER_API_URL}/chart/0/${type}?limit=5`;
+export async function fetchTop(type: string, limit: number) : Promise<ItemTypes[]>{
+	const url = `${DEEZER_API_URL}/chart/0/${type}?limit=${limit}`;
 	return (await apiFetch<ItemTypes[]>(url)) ?? [];
 }
 
 // Fetch new albums 
-export async function fetchNewAlbums() : Promise<Album[]>{
-	const url = `${DEEZER_API_URL}/editorial/0/releases?limit=5`;
+export async function fetchNewAlbums(limit: number) : Promise<Album[]>{
+	const url = `${DEEZER_API_URL}/editorial/0/releases?limit=${limit}`;
 	return (await apiFetch<Album[]>(url)) ?? [];
 }
 

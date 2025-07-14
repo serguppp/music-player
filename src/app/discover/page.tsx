@@ -1,7 +1,13 @@
-export default function Home() {
+import { fetchNewAlbums, fetchTop} from "@/lib/data";
+import View from "./View";
+
+export default async function Home() {
+  const topTracks = await fetchTop("tracks", 37);
+  const topArtists = await fetchTop("artists", 36);
+  const topPlaylists = await fetchTop("playlists", 36);
+  const newAlbums = await fetchNewAlbums(36);
+
   return (
-    <div className="bg-amber-600 min-h-screen ">
-      <h1>Discover</h1>
-    </div>
+    <View topTracks={topTracks} newAlbums={newAlbums} topArtists={topArtists} topPlaylists={topPlaylists}/>
   );
 }

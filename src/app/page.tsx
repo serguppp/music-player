@@ -4,10 +4,10 @@ import { fetchNewAlbums, fetchTop} from "@/lib/data";
 
 export default async function Home() {
   // Types: tracks, albums, artists, playlists, podcasts
-  const topTracks = await fetchTop("tracks");
-  const topArtists = await fetchTop("artists");
-  const topPlaylists = await fetchTop("playlists");  
-  const newAlbums = await fetchNewAlbums();
+  const topTracks = await fetchTop("tracks", 6);
+  const topArtists = await fetchTop("artists", 5);
+  const topPlaylists = await fetchTop("playlists", 5);  
+  const newAlbums = await fetchNewAlbums(5);
   
   return (
     <div className="flex flex-col gap-y-20">

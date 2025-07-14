@@ -3,6 +3,7 @@
 import { usePlayer } from '@/hooks/usePlayer';
 import Image from 'next/image';
 import { Play, Pause, SkipBack, SkipForward, Volume2, VolumeX } from 'lucide-react';
+import Link from 'next/link';
 
 export default function AudioBar() {
   const { currentTrack, isPlaying, togglePlay, volume, setVolume, duration, currentTime, seek, playNext, playPrevious } = usePlayer();
@@ -23,9 +24,9 @@ export default function AudioBar() {
       {/* Track info */}
       <div className="flex items-center gap-4 w-1/4">
         <Image src={currentTrack.album.cover_xl} alt={currentTrack.title} width={64} height={64} className="rounded-md" />
-        <div>
-          <h3 className="font-semibold text-white truncate">{currentTrack.title}</h3>
-          <p className="text-sm text-gray-400 truncate">{currentTrack.artist.name}</p>
+        <div className="flex flex-col max-w-sm">
+          <Link rel="preload" href={`/album/${currentTrack.album.id}`} className="text-sm font-semibold text-white truncate hover:underline">{currentTrack.title}</Link>
+          <Link rel="preload" href={`/artist/${currentTrack.artist.id}`} className="text-sm text-gray-400 truncate hover:underline">{currentTrack.artist.name}</Link>
         </div>
       </div>
 

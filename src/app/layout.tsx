@@ -3,7 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
 import Navbar from "@/components/Navbar";
-import Sidebar from "@/components/Sidebar";
+import Sidebar from "@/components/SideBar"; 
 import { PlayerProvider } from "@/context/PlayerContext";
 import AudioBar from "@/components/Audiobar";
 
