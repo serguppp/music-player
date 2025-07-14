@@ -10,20 +10,16 @@ type Props = {
   };
 };
 
-export default async function Home({params} : Props){
-	const id = params.id;
-	const item = await fetchItemByID("album", id);
-	
-	if (!item || !isAlbum(item)){
-		return (
-				<Page404/>
-		)
-	}
-	else{
-		const tracks = item.tracks.data ? await getFullTrackDetails(item.tracks.data) : [];
-		return(
-				<View item={item} tracks={tracks}/>
-		)
-	}
+export default async function Home({ params }: Props) {
+  const id = params.id;
+  const item = await fetchItemByID("album", id);
 
+  if (!item || !isAlbum(item)) {
+    return <Page404 />;
+  } else {
+    const tracks = item.tracks.data
+      ? await getFullTrackDetails(item.tracks.data)
+      : [];
+    return <View item={item} tracks={tracks} />;
+  }
 }

@@ -10,37 +10,37 @@ const API_DELAY = 0.01;
 // as these are often represented by partial track objects.
 
 export async function getFullTrackDetails(tracks: Track[]): Promise<Track[]> {
-    if (!tracks) return [];
+	if (!tracks) return [];
 
-    const detailedTracks: Track[] = [];
-        for (const track of tracks) {
-        const fullTrack = await fetchItemByID("track", track.id);
-        
-        if (fullTrack && isTrack(fullTrack)) {
-            detailedTracks.push(fullTrack);
-        }
-        await delay(API_DELAY); 
-    }
+	const detailedTracks: Track[] = [];
+		for (const track of tracks) {
+			const fullTrack = await fetchItemByID("track", track.id);
+			
+			if (fullTrack && isTrack(fullTrack)) {
+					detailedTracks.push(fullTrack);
+			}
+			await delay(API_DELAY); 
+	}
 
-    return detailedTracks;
+	return detailedTracks;
 }
 
 export async function getFullItemListDetails(items: ItemTypes[], type: string): Promise<ItemTypes[]> {
-    if (!items) return [];
+	if (!items) return [];
 
-    const detailedItems: ItemTypes[] = [];
+	const detailedItems: ItemTypes[] = [];
 
-    for (const item of items) {
-        const fullItem = await fetchItemByID(type, item.id);
-        
-        if (fullItem && fullItem.type === type) {
-            detailedItems.push(fullItem);
-        }
+	for (const item of items) {
+			const fullItem = await fetchItemByID(type, item.id);
+			
+			if (fullItem && fullItem.type === type) {
+					detailedItems.push(fullItem);
+			}
 
-        await delay(API_DELAY);
-    }
-    
-    return detailedItems;
+			await delay(API_DELAY);
+	}
+	
+	return detailedItems;
 }
 
 export async function getFullItemDetails(item : ItemTypes, type : string) : Promise<ItemTypes | null>{
