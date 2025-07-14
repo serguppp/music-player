@@ -17,27 +17,27 @@ type Props = {
 
 export default function Carousel({items, artist, className} : Props){
     return (
-        <Swiper
-            modules={[Navigation, Pagination, Autoplay]}
-            loop={true}
-            slidesPerView={5}
-            pagination={{ clickable: true }}
-            navigation={true}
-            autoplay={{ delay: 3000, disableOnInteraction: false }}
-            breakpoints={{
-                320: { slidesPerView: 2 },
-                640: { slidesPerView: 2 },
-                1024: { slidesPerView: 4},
-                1440: { slidesPerView: 5},
-            }}
-            className={`${className}`}
-        >
-                                
-        {items.map((c) => (isAlbum(c) && c.artist.name === artist && c.record_type!="single") ? (
-            <SwiperSlide key={c.id} className={`p-4 items-center justify-center max-w-7xl `}>
-                <Card carousel item={c} variant="square"></Card>
-            </SwiperSlide>   
-        ) : "")}
-        </Swiper>
-    );
+			<Swiper
+					modules={[Navigation, Pagination, Autoplay]}
+					loop={true}
+					slidesPerView={5}
+					pagination={{ clickable: true }}
+					navigation={true}
+					autoplay={{ delay: 3000, disableOnInteraction: false }}
+					breakpoints={{
+							320: { slidesPerView: 2 },
+							640: { slidesPerView: 2 },
+							1024: { slidesPerView: 4},
+							1440: { slidesPerView: 5},
+					}}
+					className={`${className}`}
+			>
+															
+			{items.map((c) => (isAlbum(c) && c.artist.name === artist && c.record_type!="single") ? (
+					<SwiperSlide key={c.id} className={`p-4 items-center justify-center max-w-7xl `}>
+							<Card carousel item={c} variant="square"></Card>
+					</SwiperSlide>   
+			) : "")}
+			</Swiper>
+	);
 }

@@ -39,6 +39,5 @@ export default function View( {item, tracks} : Props){
 
 			<TrackTable type="playlist" tracks={tracks}/>
 	</div>
-    
   );
 }

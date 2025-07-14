@@ -8,10 +8,10 @@ import { FastAverageColor } from "fast-average-color";
 // used to create visually appealing gradients on item pages
 
 export function BgColorFromImage(imageUrl: string){
-    const [color, setColor] = useState<string | null>(null);
+  const [color, setColor] = useState<string | null>(null);
 
 	useEffect(() => {
-        if(!imageUrl) return;
+    if(!imageUrl) return;
 
 		const fac = new FastAverageColor();
 		fac.getColorAsync(imageUrl, { mode: 'precision' })
@@ -19,6 +19,6 @@ export function BgColorFromImage(imageUrl: string){
         .catch(e => console.error(e));
 	}, [imageUrl]);
 
-    return color;
+  return color;
 }
 

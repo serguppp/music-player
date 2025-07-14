@@ -34,9 +34,9 @@ export default function Button({
 
     //Styles specific to each button variant
     const variantStyles = {
-      fill: "bg-normal-pink",
-      outline_pink: "outline outline-normal-pink",
-      outline_blue: "outline outline-normal-blue",
+      fill: "bg-normal-pink hover:scale-110",
+      outline_pink: "outline outline-normal-pink hover:scale-110",
+      outline_blue: "outline outline-normal-blue hover:scale-110",
       text: "bg-transparent ",
       side_bar: "bg-transparent text-sm hover:bg-card-hover hover:scale-120 hover:shadow-xs  hover:shadow-normal-pink duration-300",
       shelf:'bg-card w-32 h-32 xl:w-16 xl:h-16 rounded-full flex flex-shrink-0 justify-center items-center hover:scale-110 hover:bg-card-hover hover:shadow-sm hover:shadow-normal-pink transition-all',
