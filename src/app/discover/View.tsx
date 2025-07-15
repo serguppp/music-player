@@ -1,6 +1,6 @@
 "use client";
 import Shelf from "@/components/Shelf";
-import { Album, ItemTypes } from "@/types/types";
+import { ItemTypes } from "@/types/types";
 import { useState } from "react";
 
 type Props = {
