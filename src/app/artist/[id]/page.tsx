@@ -8,8 +8,10 @@ import Page404 from "@/components/Page404";
 import { getFullItemListDetails, getFullTrackDetails } from "@/lib/tracks";
 import { isArtist } from "@/utils/typeGuards";
 
-export default async function Page({params}: {params: Promise<{ id: string }>}) {
-  const {id} = await(params);
+type Params = Promise<{id: string}>
+
+export default async function Page(props: {params:Params}) {
+  const id = (await props.params).id;
   const item = await fetchItemByID("artist", id);
 
   if (!item || !isArtist(item)) {

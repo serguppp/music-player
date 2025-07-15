@@ -1,13 +1,15 @@
 import { NextResponse } from 'next/server';
 
-export async function GET(
-  request: Request,
-  context: { params: { slug: string[] } }
-) {
-  const { params } = context;
+type Params = Promise<{slug: string[]}>
+
+export async function GET(request: Request, data: { params: Params}) {
+   
+  const params  = await data.params;
   const path = params.slug.join('/');
 
-  const { search } = new URL(request.url);
+  const req = await request;
+
+  const { search } = new URL(req.url);
 
   const deezerApiUrl = `https://api.deezer.com/${path}${search}`;
 

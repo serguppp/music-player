@@ -3,20 +3,18 @@ import View from "./View";
 import { getFullItemListDetails } from "@/lib/tracks";
 import { redirect } from "next/navigation";
 
-type Props = {
-  searchParams: {
-    q: string;
-  };
-};
+type SearchParams = Promise<{ [q: string]: string | string[] | undefined }>
 
-export default async function Page({ searchParams }: Props) {
-  const q = searchParams.q;
-  if (!q) {
+export default async function Page(props: {searchParams:SearchParams}) {
+  const q = (await props.searchParams).q;
+  const query = Array.isArray(q) ? q[0] : q;
+
+  if (!query) {
     redirect("/");
   } else {
-    const searchedTracks = await fetchItems(q, "track");
-    const searchedArtists = await fetchItems(q, "artist");
-    const searchedAalbums = await fetchItems(q, "album");
+    const searchedTracks = await fetchItems(query, "track");
+    const searchedArtists = await fetchItems(query, "artist");
+    const searchedAalbums = await fetchItems(query, "album");
 
     const tracks = await getFullItemListDetails(searchedTracks, "track");
     const artists = await getFullItemListDetails(searchedArtists, "artist");
