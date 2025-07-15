@@ -66,7 +66,7 @@ export default function TrackTable( {type, tracks} : Props){
           <div className="hidden  group-hover:block"><Button raw variant="bar_play" onClick={playSingleTrack(track)} className=""/></div>
           <div className="flex gap-3 items-center">
             {type !== "default" ?
-            <Image src={track.album.cover_xl} width={192} height={192} alt={track.album.title} className="rounded-sm w-10 h-10"></Image>
+            <Image priority={true} src={track.album.cover_xl} width={192} height={192} alt={track.album.title} className="rounded-sm w-10 h-10"></Image>
             : null }
             <div>
               <Link rel="preload" href={`/album/${track.album.id}`}> {track.title} </Link>

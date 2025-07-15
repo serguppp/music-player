@@ -12,10 +12,12 @@ export default async function Page(props: {params:Params}) {
 
   if (!item || !isPlaylist(item)) {
     return <Page404 />;
-  } else {
-    const tracks = item.tracks.data
-      ? await getFullTrackDetails(item.tracks.data)
-      : [];
-    return <View item={item} tracks={tracks} />;
-  }
+  } 
+
+  const tracks = item.tracks.data
+    ? await getFullTrackDetails(item.tracks.data)
+    : [];
+  
+  return <View item={item} tracks={tracks} />;
+  
 }

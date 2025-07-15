@@ -55,7 +55,7 @@ export default function Button({
     shelf:
       "bg-card w-32 h-32 xl:w-16 xl:h-16 rounded-full flex flex-shrink-0 justify-center items-center hover:scale-110 hover:bg-card-hover hover:shadow-sm hover:shadow-normal-pink transition-all",
     card_play:
-      "absolute z-10 w-14 h-14 hover:scale-110 shadow-black shadow-sm bg-green-500 hover:bg-green-400 rounded-full flex items-center justify-center cursor-pointer opacity-0 group-hover:opacity-100 transition-opacity duration-300 bottom-1/4 right-2",
+      "peer absolute z-10 w-14 h-14 hover:scale-110 shadow-black shadow-sm bg-green-500 hover:bg-green-400 rounded-full flex items-center justify-center cursor-pointer opacity-0 group-hover:opacity-100 transition-opacity duration-300 bottom-1/4 right-2",
     play: "w-14 h-14 hover:scale-110 shadow-black shadow-sm bg-green-500 hover:bg-green-400 rounded-full flex items-center justify-center cursor-pointer opacity-100 transition-opacity duration-300 ",
     bar: "cursor-pointer w-14 hover:scale-110  flex items-center justify-center",
     bar_play:

@@ -16,15 +16,21 @@ export default async function Page(props: {params:Params}) {
 
   if (!item || !isArtist(item)) {
     return <Page404 />;
-  } else {
-    const topTracks = await fetchArtistTopTracks(id, 5);
-    const tracks = topTracks ? await getFullTrackDetails(topTracks) : [];
+  } 
 
-    const artistAlbums = item.nb_album > 0 ? await fetchArtistAlbums(id) : [];
-    const albums = artistAlbums
-      ? await getFullItemListDetails(artistAlbums, "album")
-      : [];
+  const [tracks, albums] = await Promise.all([
+    fetchArtistTopTracks(id, 5).then(topTracks => {
+      return topTracks ? getFullTrackDetails(topTracks) : [];
+    }),
+    (async () => {
+      if (item.nb_album > 0){
+        const artistAlbums = await fetchArtistAlbums(id);
+        return artistAlbums ? getFullItemListDetails(artistAlbums, "album") : [];
+      }
+      return [];
+    })(),]);
 
-    return <View item={item} tracks={tracks} albums={albums} />;
-  }
+
+  return <View item={item} tracks={tracks} albums={albums} />;
+  
 }

@@ -3,7 +3,7 @@ import { fetchItemByID } from "@/lib/data";
 import { isTrack } from "@/utils/typeGuards";
 import { delay } from "@/lib/data";
 
-const API_DELAY = 0.01;
+const API_DELAY = 0.05;
 
 // This function returns full details about tracks.
 // It is used to fetch full track information when tracks are part of albums, artists, or playlists, 

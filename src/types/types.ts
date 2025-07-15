@@ -4,6 +4,7 @@ export type Artist = {
 	id: string;
 	name: string;
 	picture_xl: string;
+	picture_small: string;
 	link: string;
 	nb_fan: number;
 	nb_album: number;
@@ -14,6 +15,7 @@ export type Album = {
 	id: string;
 	title: string;
 	cover_xl: string;
+	cover_small: string;
 	nb_tracks: number;
 	artist: Artist;
 	tracks: { data: Track[] };
@@ -47,6 +49,7 @@ export type Playlist = {
 	nb_tracks: number;
 	fans: number;
 	picture_xl: string;
+	picture_small: string;
 	link: string;
 	creator: {name: string };
 	type: 'playlist';

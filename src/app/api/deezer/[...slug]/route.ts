@@ -15,6 +15,9 @@ export async function GET(request: Request, data: { params: Params}) {
 
   try {
     const apiResponse = await fetch(deezerApiUrl, {
+      next: {
+        revalidate: 3600,
+      },
       headers: {
         'Content-Type': 'application/json',
       },
@@ -29,6 +32,6 @@ export async function GET(request: Request, data: { params: Params}) {
 
   } catch (error) {
     console.error('Deezer API error', error);
-    return new NextResponse('Błąd serwera wewnętrznego', { status: 500 });
+    return new NextResponse('Deezer API error', { status: 500 });
   }
 }

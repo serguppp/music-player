@@ -11,21 +11,22 @@ export default async function Page(props: {searchParams:SearchParams}) {
 
   if (!query) {
     redirect("/");
-  } else {
-    const searchedTracks = await fetchItems(query, "track");
-    const searchedArtists = await fetchItems(query, "artist");
-    const searchedAalbums = await fetchItems(query, "album");
+  } 
+    
+  const promises = [
+    fetchItems(query, "track").then(items => getFullItemListDetails(items, "track")),
+    fetchItems(query, "artist").then(items => getFullItemListDetails(items, "artist")),
+    fetchItems(query, "album").then(items => getFullItemListDetails(items, "album")),
+  ];
 
-    const tracks = await getFullItemListDetails(searchedTracks, "track");
-    const artists = await getFullItemListDetails(searchedArtists, "artist");
-    const albums = await getFullItemListDetails(searchedAalbums, "album");
+  const [tracks, artists, albums] = await Promise.all(promises);
 
-    const results = {
-      tracks: tracks || [],
-      artists: artists || [],
-      albums: albums || [],
-    };
+  const results = {
+    tracks: tracks || [],
+    artists: artists || [],
+    albums: albums || [],
+  };
 
-    return <View results={results} />;
-  }
+  return <View results={results} />;
+
 }

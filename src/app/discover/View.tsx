@@ -5,7 +5,7 @@ import { useState } from "react";
 
 type Props = {
   topTracks: ItemTypes[],
-  newAlbums: Album[],
+  newAlbums: ItemTypes[],
   topArtists: ItemTypes[],
   topPlaylists: ItemTypes[],
 };

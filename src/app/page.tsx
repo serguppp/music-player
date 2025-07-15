@@ -3,11 +3,14 @@ import Shelf from "@/components/Shelf";
 import { fetchNewAlbums, fetchTop } from "@/lib/data";
 
 export default async function Home() {
-  // Types: tracks, albums, artists, playlists, podcasts
-  const topTracks = await fetchTop("tracks", 6);
-  const topArtists = await fetchTop("artists", 5);
-  const topPlaylists = await fetchTop("playlists", 5);
-  const newAlbums = await fetchNewAlbums(5);
+  const promises = [
+    fetchTop("tracks",6),
+    fetchTop("artists", 5),
+    fetchTop("playlists", 5),
+    fetchNewAlbums(5),
+  ];
+
+  const [topTracks, topArtists, topPlaylists, newAlbums] = await Promise.all(promises);
 
   return (
     <div className="flex flex-col gap-y-20">

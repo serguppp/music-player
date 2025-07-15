@@ -12,7 +12,7 @@ type Props = {
 };
 
 export default function View({ item, tracks }: Props) {
-  const bgColor = BgColorFromImage(item.picture_xl);
+  const bgColor = BgColorFromImage(item.picture_small);
 
   const titleStyle = adjustFontSize(item.title);
 

@@ -42,6 +42,7 @@ export default function AudioBar() {
       {/* Track info */}
       <div className="flex items-center gap-4 w-1/4">
         <Image
+          priority={true}
           src={currentTrack.album.cover_xl}
           alt={currentTrack.title}
           width={64}
