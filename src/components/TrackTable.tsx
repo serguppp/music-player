@@ -23,6 +23,7 @@ export default function TrackTable( {type, tracks} : Props){
     tracks = tracks.slice(0,5);
   }
 
+  
   return( 
     <div className="flex flex-col gap-y-5">
       {/* Media controls Bar*/}
@@ -71,12 +72,17 @@ export default function TrackTable( {type, tracks} : Props){
             <div>
               <Link rel="preload" href={`/album/${track.album.id}`}> {track.title} </Link>
                 <div className="text-xs text-normal-pink">
-                  {track.contributors.map((c, i) => (
+                  {track.contributors ? track.contributors.map((c, i) => (
                       <Fragment key={i}>
-                      <Link rel="preload" href={`/artist/${c.id}`} className="hover:underline">{c.name}</Link>
-                      {i < track.contributors.length - 1 && ", "}
+                        <Link rel="preload" href={`/artist/${c.id}`} className="hover:underline">{c.name}</Link>
+                        {i < track.contributors.length - 1 && ", "}
                       </Fragment>
-                  ))}
+                  )):
+                      <Fragment key={i}>
+                        <Link rel="preload" href={`/artist/${track.artist.id}`} className="hover:underline">{track.artist.name}</Link>
+                      </Fragment>
+                  }
+                  
                 </div>
             </div>   
           </div>

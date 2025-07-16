@@ -1,20 +1,35 @@
 "use client";
 
 import Image from "next/image";
-import { Album, Track } from "@/types/types";
+import { useItemByID, useItemDetails } from "@/hooks/useQueries";
 import { BgColorFromImage } from "@/hooks/useImageAverageColor";
 import { adjustFontSize } from "@/utils/adjustFontSize";
 import Link from "next/link";
 import TrackTable from "@/components/TrackTable";
+import LoadingPage from "@/components/LoadingPage";
+import { isAlbum, isTrackArray } from "@/utils/typeGuards";
+import Page404 from "@/components/Page404";
 
 type Props = {
-  item: Album;
-  tracks: Track[];
+  id: string;
 };
 
-export default function View({ item, tracks }: Props) {
-  const bgColor = BgColorFromImage(item.cover_small);
-  const titleStyle = adjustFontSize(item.title);
+export default function AlbumView({ id }: Props) {
+  const { data: album, isLoading: isLoadingAlbum } = useItemByID("album", id)
+  const item = album && isAlbum(album) ? album : null;
+
+  const { data: tracks, isLoading: isLoadingTracks } = useItemDetails(item?.tracks.data ?? [], "track");
+
+  const bgColor = BgColorFromImage(item?.cover_small ?? ""); 
+  const titleStyle = adjustFontSize(item?.title ?? "");
+
+  if (isLoadingAlbum || isLoadingTracks) {
+    return <LoadingPage />;
+  }
+
+  if (!item || !isAlbum(item)) {
+    return <Page404/>;
+  }
 
   return (
     <div
@@ -39,7 +54,6 @@ export default function View({ item, tracks }: Props) {
             <p>{item.record_type}</p>
             <h1 className={`${titleStyle} font-bold`}>{item.title}</h1>
           </div>
-
           <div className="text-sm flex gap-1 lg:absolute lg:bottom-0 ">
             <Link rel="preload" href={`/artist/${item.artist.id}`}>
               <p className="font-bold hover:underline">{item.artist.name}</p>
@@ -52,8 +66,7 @@ export default function View({ item, tracks }: Props) {
           </div>
         </div>
       </div>
-
-      <TrackTable type="default" tracks={tracks} />
+      <TrackTable type="default" tracks={isTrackArray(tracks) ? tracks : []} />
     </div>
   );
 }

@@ -1,20 +1,33 @@
 "use client";
 
 import Image from "next/image";
-import { Track, Playlist } from "@/types/types";
 import { BgColorFromImage } from "@/hooks/useImageAverageColor";
 import { adjustFontSize } from "@/utils/adjustFontSize";
 import TrackTable from "@/components/TrackTable";
+import { isPlaylist } from "@/utils/typeGuards";
+import LoadingPage from "@/components/LoadingPage";
+import Page404 from "@/components/Page404";
+import { useItemByID } from "@/hooks/useQueries";
 
 type Props = {
-  item: Playlist;
-  tracks: Track[];
+  id: string;
 };
 
-export default function View({ item, tracks }: Props) {
-  const bgColor = BgColorFromImage(item.picture_small);
+export default function PlaylistView({ id }: Props) {
+  const { data: playlist, isLoading: isLoadingPlaylist } = useItemByID("playlist", id)
+  const item = playlist && isPlaylist(playlist) ? playlist : null;
+  const tracks = item?.tracks.data;
 
-  const titleStyle = adjustFontSize(item.title);
+  const bgColor = BgColorFromImage(item?.picture_small ?? "");
+  const titleStyle = adjustFontSize(item?.title ?? "");
+
+  if (isLoadingPlaylist) {
+    return <LoadingPage />;
+  }
+
+  if (!item || !isPlaylist(item)) {
+    return <Page404/>;
+  }
 
   return (
     <div
@@ -51,7 +64,7 @@ export default function View({ item, tracks }: Props) {
         </div>
       </div>
 
-      <TrackTable type="playlist" tracks={tracks} />
+      <TrackTable type="playlist" tracks={tracks?? []} />
     </div>
   );
 }

@@ -1,25 +1,44 @@
 "use client";
 
 import Image from "next/image";
-import { Artist, Album, Track, ItemTypes } from "@/types/types";
 import { BgColorFromImage } from "@/hooks/useImageAverageColor";
 import { adjustFontSize } from "@/utils/adjustFontSize";
 import Carousel from "@/components/Carousel";
 import TrackTable from "@/components/TrackTable";
+import { useArtistAlbums, useArtistTopTracks, useItemByID, useItemDetails } from "@/hooks/useQueries";
+import LoadingPage from "@/components/LoadingPage";
+import { isArtist, isTrackArray } from "@/utils/typeGuards";
+import Page404 from "@/components/Page404";
 
 type Props = {
-  item: Artist;
-  tracks: Track[];
-  albums: Album[] | ItemTypes[];
+  id: string;
 };
 
-export default function View({ item, tracks, albums }: Props) {
-  const bgColor = BgColorFromImage(item.picture_small);
-  const titleStyle = adjustFontSize(item.name);
-  // FIXME: add view all tracks
+export default function ArtistView({ id }: Props) {
+  const { data: artist, isLoading: isLoadingArtist } = useItemByID("artist", id);
+  const item = artist && isArtist(artist) ? artist : null;
+
+  const { data: partialTopTracks, isLoading: isLoadingPartialTracks } = useArtistTopTracks(id, 5);
+  const { data: partialAlbums, isLoading: isLoadingPartialAlbums } = useArtistAlbums(id ?? "");
+  const { data: fullTopTracks, isLoading: isLoadingFullTracks } = useItemDetails(partialTopTracks ?? [], 'track');
+  const { data: fullAlbums, isLoading: isLoadingFullAlbums } = useItemDetails(partialAlbums ?? [], "album");
+
+  const isLoading = isLoadingArtist || isLoadingPartialTracks || isLoadingFullTracks || isLoadingPartialAlbums || isLoadingFullAlbums;
+
+  const bgColor = BgColorFromImage(item?.picture_small ?? "");
+  const titleStyle = adjustFontSize(item?.name ?? "");
+
+  if (isLoading) {
+    return <LoadingPage />;
+  }
+
+  if (!item || !isArtist(item)) {
+    return <Page404/>;
+  }
+  
   return (
     <div
-      className="max-w-7xl bg-card flex flex-col gap-y-5 p-5 rounded-4xl "
+      className="max-w-7xl bg-card flex flex-col gap-y-5 p-5 rounded-4xl"
       style={{
         background: `linear-gradient(to bottom, ${bgColor} 0%, #121212 400px)`,
       }}
@@ -33,33 +52,29 @@ export default function View({ item, tracks, albums }: Props) {
             width={192}
             height={192}
             className="w-52 h-52 rounded-full shadow-black"
-          ></Image>
+          />
         </div>
         <div className="flex flex-col justify-center relative min-w-sm ">
           <div className="flex flex-col">
             <p>artist</p>
             <h1 className={`${titleStyle} font-bold`}>{item.name}</h1>
           </div>
-
           <div className="text-sm flex gap-1 lg:absolute lg:bottom-0 ">
             <p>
-              {Math.round(item.nb_fan).toLocaleString("pl-PL")} listeners this
-              month
+              {Math.round(item.nb_fan).toLocaleString("pl-PL")} listeners this month
             </p>
           </div>
         </div>
       </div>
 
-      <TrackTable type="artist" tracks={tracks} />
+      <TrackTable type="artist" tracks={isTrackArray(fullTopTracks) ? fullTopTracks : []} />
 
       <div className="flex flex-col gap-5 w-full h-[500px]">
         <h2 className="px-2 font-bold text-2xl">Discography</h2>
-
         <div className="">
-          <Carousel items={albums} artist={item.name} className="p-10" />
+          <Carousel items={fullAlbums ?? []} artist={item.name} className="p-10" />
         </div>
       </div>
-      
     </div>
   );
-}
+} 

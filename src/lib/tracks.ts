@@ -42,8 +42,3 @@ export async function getFullItemListDetails(items: ItemTypes[], type: string): 
 	
 	return detailedItems;
 }
-
-export async function getFullItemDetails(item : ItemTypes, type : string) : Promise<ItemTypes | null>{
-    const fullItem = item ? fetchItemByID(type, item.id) : null;
-    return fullItem;
-}

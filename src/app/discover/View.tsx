@@ -1,17 +1,22 @@
 "use client";
+import LoadingPage from "@/components/LoadingPage";
 import Shelf from "@/components/Shelf";
-import { ItemTypes } from "@/types/types";
+import { useNewAlbums, useTopItems } from "@/hooks/useQueries";
 import { useState } from "react";
 
-type Props = {
-  topTracks: ItemTypes[],
-  newAlbums: ItemTypes[],
-  topArtists: ItemTypes[],
-  topPlaylists: ItemTypes[],
-};
+export default function View() {
+  const { data: topTracks, isLoading: isLoadingTopTracks } = useTopItems("tracks",36);
+  const { data: topArtists, isLoading: isLoadingTopArtists } = useTopItems("artists",36);
+  const { data: topPlaylists, isLoading: isLoadingTopPlaylists } = useTopItems("playlists", 36);
+  const { data: newAlbums, isLoading: isLoadingNewAlbums } = useNewAlbums(36);
 
-export default function View({topTracks, newAlbums, topArtists, topPlaylists} : Props) {
+  const isLoading = isLoadingTopTracks || isLoadingTopArtists || isLoadingTopPlaylists || isLoadingNewAlbums;
+
   const [section, setSection] = useState<string>("top-songs");
+
+  if (isLoading) {
+    return <LoadingPage />;
+  }
 
   const navItems = [
     { id: "top-songs", label: "Top Songs" },
@@ -38,7 +43,7 @@ export default function View({topTracks, newAlbums, topArtists, topPlaylists} : 
 
       {section === "top-songs" && (
         <section id="top-songs" className={`px-10`}>
-          <Shelf button={false} items={topTracks} variant="square">
+          <Shelf button={false} items={topTracks? topTracks : []} variant="square">
             Weekly Top <span className="text-normal-pink">Songs</span>
           </Shelf>
         </section>
@@ -46,7 +51,7 @@ export default function View({topTracks, newAlbums, topArtists, topPlaylists} : 
 
       {section === "new-albums" && (
         <section id="new-albums" className="px-10">
-          <Shelf button={false} items={newAlbums} variant="square">
+          <Shelf button={false} items={newAlbums? newAlbums: []} variant="square">
             New <span className="text-normal-pink">Album </span>Releases
           </Shelf>
         </section>
@@ -54,7 +59,7 @@ export default function View({topTracks, newAlbums, topArtists, topPlaylists} : 
 
       {section === "popular-artists" && (
         <section id="popular-artists" className="px-10">
-          <Shelf button={false} items={topArtists} variant="circle">
+          <Shelf button={false} items={topArtists? topArtists : []} variant="circle">
             Popular <span className="text-normal-pink">Artists</span>
           </Shelf>
         </section>
@@ -62,7 +67,7 @@ export default function View({topTracks, newAlbums, topArtists, topPlaylists} : 
 
       {section === "top-playlists" && (
         <section id="top-playlists" className="px-10">
-          <Shelf button={false} items={topPlaylists} variant="square">
+          <Shelf button={false} items={topPlaylists? topPlaylists : []} variant="square">
             Top <span className="text-normal-pink">Playlists</span>
           </Shelf>
         </section>

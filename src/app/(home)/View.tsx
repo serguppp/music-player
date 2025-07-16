@@ -1,16 +1,23 @@
+"use client";
+
 import Button from "@/components/Button";
+import LoadingPage from "@/components/LoadingPage";
 import Shelf from "@/components/Shelf";
-import { fetchNewAlbums, fetchTop } from "@/lib/data";
+import {
+  useNewAlbums,
+  useTopItems
+} from "@/hooks/useQueries";
 
-export default async function Home() {
-  const promises = [
-    fetchTop("tracks",6),
-    fetchTop("artists", 5),
-    fetchTop("playlists", 5),
-    fetchNewAlbums(5),
-  ];
+export default function HomeView() {
+  const { data: topTracks, isLoading: isLoadingTopTracks } = useTopItems("tracks",5);
+  const { data: topArtists, isLoading: isLoadingTopArtists } = useTopItems("artists",5);
+  const { data: topPlaylists, isLoading: isLoadingTopPlaylists } = useTopItems("playlists", 5);
+  const { data: newAlbums, isLoading: isLoadingNewAlbums } = useNewAlbums(5);
 
-  const [topTracks, topArtists, topPlaylists, newAlbums] = await Promise.all(promises);
+  const isLoading = isLoadingTopTracks || isLoadingTopArtists || isLoadingTopPlaylists || isLoadingNewAlbums;
+  if (isLoading) {
+    return <LoadingPage />;
+  }
 
   return (
     <div className="flex flex-col gap-y-20">
@@ -44,25 +51,25 @@ export default async function Home() {
       </section>
 
       <section className="px-10">
-        <Shelf items={topTracks} variant="square">
+        <Shelf items={topTracks ?? []} variant="square">
           Weekly Top <span className="text-normal-pink">Songs</span>
         </Shelf>
       </section>
 
       <section className="px-10">
-        <Shelf items={newAlbums} variant="square">
+        <Shelf items={newAlbums ?? []} variant="square">
           New <span className="text-normal-pink">Album </span>Releases
         </Shelf>
       </section>
 
       <section className="px-10">
-        <Shelf items={topArtists} variant="circle">
+        <Shelf items={topArtists ?? []} variant="circle">
           Popular <span className="text-normal-pink">Artists</span>
         </Shelf>
       </section>
 
       <section className="px-10">
-        <Shelf items={topPlaylists} variant="square">
+        <Shelf items={topPlaylists ?? []} variant="square">
           Top <span className="text-normal-pink">Playlists</span>
         </Shelf>
       </section>
