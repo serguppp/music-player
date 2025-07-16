@@ -60,7 +60,7 @@ export default function Card({
       <Link rel="preload" href={linkUrl}>
         <div className="group peer-hover:scale-105 peer-hover:bg-card-hover peer-hover:shadow-md peer-hover:shadow-normal-blue relative bg-card max-w-48 px-3 py-2 flex flex-col gap-1 rounded-lg text-white font-[family-name:var(--font-geist-sans)] hover:scale-105 hover:bg-card-hover hover:shadow-md hover:shadow-normal-blue ease-in-out transition-all duration-300">
           <Image
-            loading="lazy"
+            priority={true}
             src={imageUrl}
             width={256}
             height={256}

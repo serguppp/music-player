@@ -26,7 +26,7 @@ export default function View({ item, tracks }: Props) {
       <div className="flex flex-col lg:flex-row gap-5 mt-20 w-full ">
         <div className="xl:min-w-52 xl:min-h-52">
           <Image
-            loading="lazy"
+            priority={true}
             src={item.picture_xl}
             alt={"Album Cover"}
             width={192}
