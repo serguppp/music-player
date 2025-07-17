@@ -55,7 +55,7 @@ export function useItemDetails(items: ItemTypes[], type:string){
     const results = useQueries({
         queries: (items ?? []).map(item =>{
             return {
-                queryKey: ['itemByID', type, item.id],
+                queryKey: ['detailedItemByID', type, item.id],
                 queryFn: () => fetchItemByID(type, item.id),
                 enabled: !!items && items.length > 0,
                 

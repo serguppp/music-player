@@ -10,7 +10,7 @@ export function delay(ms: number) {
 
 async function apiFetch<T>(url:string): Promise<T | null> {
 	try{
-		const response = await fetch(url);
+		const response = await fetch(url, { cache: 'no-store'});
 		if(!response.ok){
 				console.log("Deezer API failed response for url: ", url);
 				return null;

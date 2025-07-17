@@ -23,6 +23,7 @@ export default function TrackTable( {type, tracks} : Props){
     tracks = tracks.slice(0,5);
   }
 
+  console.log(tracksCopy);
   
   return( 
     <div className="flex flex-col gap-y-5">
@@ -34,7 +35,7 @@ export default function TrackTable( {type, tracks} : Props){
         <Button raw variant="bar" onClick={()=>{}} Icon = {ListPlus}/>
         <Button raw variant="bar" onClick={()=>{}} Icon = {Share}/>
       </div>
-      : "" }
+      : null }
 
       {type === "artist" ? <h2 className="px-2 font-bold text-2xl">Popular tracks</h2> : ""}
 
@@ -67,7 +68,7 @@ export default function TrackTable( {type, tracks} : Props){
           <div className="hidden  group-hover:block"><Button raw variant="bar_play" onClick={playSingleTrack(track)} className=""/></div>
           <div className="flex gap-3 items-center">
             {type !== "default" ?
-            <Image priority={true} src={track.album.cover_xl} width={192} height={192} alt={track.album.title} className="rounded-sm w-10 h-10"></Image>
+            <Image loading="lazy" src={track.album.cover_xl} width={192} height={192} alt={track.album.title} className="rounded-sm w-10 h-10"></Image>
             : null }
             <div>
               <Link rel="preload" href={`/album/${track.album.id}`}> {track.title} </Link>
@@ -91,7 +92,7 @@ export default function TrackTable( {type, tracks} : Props){
             <div className="max-w-[200px] hidden lg:block justify-self-end me-5 lg:me-15 truncate"><p>{track.album.title}</p></div>
             </Link>
             : 
-            <div className="hidden lg:block justify-self-end  me-5 md:me-15">{estimatePopularity(track.rank, track.release_date)}</div>
+            <div className="hidden lg:block justify-self-end  me-5 md:me-15">{estimatePopularity(track.rank)}</div>
           }
           <div className="hidden lg:block justify-self-center" >{(track.duration/60).toFixed(0)}:{(track.duration%60)<10 ? `0${track.duration%60}`: track.duration%60}</div>
         </li>

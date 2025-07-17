@@ -27,11 +27,17 @@ export function usePlayback() {
       e.stopPropagation();
 
       let tracks;
-      const fullAlbumData = await fetchItemByID('album', album.id);
-      if (fullAlbumData && isAlbum(fullAlbumData)){
-        tracks = fullAlbumData.tracks?.data;
+      let fullAlbumData;
+      if(!album.tracks){
+        fullAlbumData = await fetchItemByID('album', album.id);
+        if (fullAlbumData && isAlbum(fullAlbumData)){
+          tracks = fullAlbumData.tracks?.data;
+        }
       }
-      
+      else{
+        tracks=album.tracks.data;
+      }
+ 
       if (tracks && tracks.length > 0){
         playTrack(tracks[0],tracks);
       }
@@ -54,9 +60,16 @@ export function usePlayback() {
       e.stopPropagation();
 
       let tracks;
-      const fullPlaylistData = await fetchItemByID('playlist', playlist.id);
-      if (fullPlaylistData && isPlaylist(fullPlaylistData)){
-        tracks = fullPlaylistData.tracks?.data;
+
+      if(!playlist.tracks){
+        const fullPlaylistData = await fetchItemByID('playlist', playlist.id);
+        if (fullPlaylistData && isPlaylist(fullPlaylistData)){
+          tracks = fullPlaylistData.tracks?.data;
+        }
+        
+      }
+      else{
+        tracks=playlist.tracks.data;
       }
       
       if (tracks && tracks.length > 0){

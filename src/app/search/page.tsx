@@ -12,5 +12,4 @@ export default async function Page(props: {searchParams:SearchParams}) {
   } 
     
   return <View query={query} />;
-
 }

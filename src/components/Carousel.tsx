@@ -11,11 +11,10 @@ import { isAlbum } from "@/utils/typeGuards";
 
 type Props = {
   items: ItemTypes[];
-  artist: string;
   className: string;
 };
 
-export default function Carousel({ items, artist, className }: Props) {
+export default function Carousel({ items, className }: Props) {
   return (
     <Swiper
       modules={[Navigation, Pagination, Autoplay]}
@@ -33,7 +32,7 @@ export default function Carousel({ items, artist, className }: Props) {
       className={`${className}`}
     >
       {items.map((c) =>
-        isAlbum(c) && c.artist.name === artist && c.record_type != "single" ? (
+        isAlbum(c) && c.record_type != "single" ? (
           <SwiperSlide
             key={c.id}
             className={`p-4 items-center justify-center max-w-7xl `}
@@ -41,7 +40,7 @@ export default function Carousel({ items, artist, className }: Props) {
             <Card carousel item={c} variant="square"></Card>
           </SwiperSlide>
         ) : (
-          ""
+          null
         )
       )}
     </Swiper>

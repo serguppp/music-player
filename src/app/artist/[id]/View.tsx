@@ -5,7 +5,7 @@ import { BgColorFromImage } from "@/hooks/useImageAverageColor";
 import { adjustFontSize } from "@/utils/adjustFontSize";
 import Carousel from "@/components/Carousel";
 import TrackTable from "@/components/TrackTable";
-import { useArtistAlbums, useArtistTopTracks, useItemByID, useItemDetails } from "@/hooks/useQueries";
+import { useArtistAlbums, useArtistTopTracks, useItemByID } from "@/hooks/useQueries";
 import LoadingPage from "@/components/LoadingPage";
 import { isArtist, isTrackArray } from "@/utils/typeGuards";
 import Page404 from "@/components/Page404";
@@ -18,12 +18,10 @@ export default function ArtistView({ id }: Props) {
   const { data: artist, isLoading: isLoadingArtist } = useItemByID("artist", id);
   const item = artist && isArtist(artist) ? artist : null;
 
-  const { data: partialTopTracks, isLoading: isLoadingPartialTracks } = useArtistTopTracks(id, 5);
-  const { data: partialAlbums, isLoading: isLoadingPartialAlbums } = useArtistAlbums(id ?? "");
-  const { data: fullTopTracks, isLoading: isLoadingFullTracks } = useItemDetails(partialTopTracks ?? [], 'track');
-  const { data: fullAlbums, isLoading: isLoadingFullAlbums } = useItemDetails(partialAlbums ?? [], "album");
+  const { data: tracks, isLoading: isLoadingTracks } = useArtistTopTracks(id, 5);
+  const { data: albums, isLoading: isLoadingAlbums } = useArtistAlbums(id ?? "");
 
-  const isLoading = isLoadingArtist || isLoadingPartialTracks || isLoadingFullTracks || isLoadingPartialAlbums || isLoadingFullAlbums;
+  const isLoading = isLoadingArtist || isLoadingTracks || isLoadingAlbums;
 
   const bgColor = BgColorFromImage(item?.picture_small ?? "");
   const titleStyle = adjustFontSize(item?.name ?? "");
@@ -46,7 +44,7 @@ export default function ArtistView({ id }: Props) {
       <div className="flex flex-col lg:flex-row gap-5 mt-20 w-full ">
         <div className="lg:min-w-52 lg:min-h-52">
           <Image
-            priority={true}
+            loading="lazy"
             src={item.picture_xl}
             alt={"item Cover"}
             width={192}
@@ -67,12 +65,12 @@ export default function ArtistView({ id }: Props) {
         </div>
       </div>
 
-      <TrackTable type="artist" tracks={isTrackArray(fullTopTracks) ? fullTopTracks : []} />
+      <TrackTable type="artist" tracks={tracks ? isTrackArray(tracks) ? tracks : [] : []} />
 
       <div className="flex flex-col gap-5 w-full h-[500px]">
         <h2 className="px-2 font-bold text-2xl">Discography</h2>
         <div className="">
-          <Carousel items={fullAlbums ?? []} artist={item.name} className="p-10" />
+          <Carousel items={albums ?? []} className="p-10" />
         </div>
       </div>
     </div>

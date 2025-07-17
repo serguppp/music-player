@@ -42,7 +42,7 @@ export default function PlaylistView({ id }: Props) {
       <div className="flex flex-col lg:flex-row gap-5 mt-20 w-full ">
         <div className="xl:min-w-52 xl:min-h-52">
           <Image
-            priority={true}
+            loading="lazy"
             src={item.picture_xl}
             alt={"Album Cover"}
             width={192}

@@ -15,9 +15,7 @@ export async function GET(request: Request, data: { params: Params}) {
 
   try {
     const apiResponse = await fetch(deezerApiUrl, {
-      next: {
-        revalidate: 3600,
-      },
+      cache: 'no-store', 
       headers: {
         'Content-Type': 'application/json',
       },
