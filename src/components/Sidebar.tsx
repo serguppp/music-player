@@ -1,6 +1,7 @@
 "use client";
 
 import Button from "@/components/Button";
+import { useAuth } from "@/hooks/useAuth";
 import {
   House,
   Compass,
@@ -10,6 +11,8 @@ import {
 } from "lucide-react";
 
 export default function Sidebar() {
+  const {toggleLogin} = useAuth();
+
   return (
     <aside
       className="bg-background h-full z-2 w-64 py-8 px-16 hidden lg:grid lg:justify-items-center fixed top-0 left-0
@@ -60,8 +63,8 @@ export default function Sidebar() {
           <Button
             active
             variant="side_bar"
-            href="/account"
-            className="text-normal-pink"
+            onClick={toggleLogin}
+            className="text-normal-pink cursor-pointer"
             Icon={User}
           >
             Account

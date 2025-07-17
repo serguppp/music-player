@@ -19,7 +19,8 @@ type Props = {
     | "card_play"
     | "play"
     | "bar"
-    | "bar_play"; //Button variants
+    | "bar_play"
+    | "state"; //Button variants
   className?: string;
   href?: string;
   Icon?: ElementType;
@@ -60,7 +61,8 @@ export default function Button({
     bar: "cursor-pointer w-14 hover:scale-110  flex items-center justify-center",
     bar_play:
       "w-6 h-6 hover:scale-110 shadow-normal-pink  shadow-sm bg-transparent rounded-full flex items-center justify-center cursor-pointer opacity-100 transition-opacity duration-300 ",
-  };
+    state: "cursor-pointer hover:text-normal-pink transition-colors"
+    };
 
   //Styles applied when a button is active (if its target path matches the current pathname)
   const activeVariantStyles = {
@@ -74,6 +76,7 @@ export default function Button({
     play: "",
     bar: "",
     bar_play: "",
+    state: "",
   };
 
   //Combine base, variant, and active styles conditionally

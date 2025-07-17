@@ -1,6 +1,7 @@
 "use client";
 import LoadingPage from "@/components/LoadingPage";
 import Shelf from "@/components/Shelf";
+import Button from "@/components/Button";
 import { useNewAlbums, useTopItems } from "@/hooks/useQueries";
 import { useState } from "react";
 
@@ -29,15 +30,15 @@ export default function View() {
     <div className="flex flex-col gap-y-20">
       <nav className="flex text-xs md:text-base justify-center gap-x-8 py-4 bg-background/10 backdrop-blur-md sticky top-16 z-10 ">
         {navItems.map(({ id, label }) => (
-          <button
+          <Button variant="state" raw
             key={id}
             onClick={() => setSection(id)}
-            className={`cursor-pointer  hover:text-normal-pink transition-colors ${
+            className={` ${
               section === id ? "underline text-normal-pink" : "text-white"
             }`}
           >
             {label}
-          </button>
+          </Button>
         ))}
       </nav>
 
