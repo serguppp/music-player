@@ -33,13 +33,18 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
 
   const audioRef = useRef<HTMLAudioElement>(null);
 
-  // Handle playing
   useEffect(() => {
     if (audioRef.current) {
       if (isPlaying) {
         if(audioRef.current.src){
-          audioRef.current.play()
-          .catch((e) => console.error("Playback error: ", e));
+          const playPromise = audioRef.current.play();
+          if (playPromise !== undefined) {
+            playPromise.catch(error => {
+              if (error.name !== 'AbortError') {
+                console.error("Playback error: ", error);
+              }
+            });
+          }
         }
       } else {
         audioRef.current.pause();
@@ -63,21 +68,38 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
       setTracklist([]);
       setCurrentIndex(0);
     }
-
+    
     setCurrentTrack(track);
+    if (!track.preview){
+      if (newTracklist) {
+        setCurrentTrack(newTracklist[currentIndex+1]);
+      }
+      else {
+        setCurrentTrack(null);
+        setIsPlaying(false);
+        return;
+      }
+
+    }
     setIsPlaying(true);
   };
 
   const playNext = () => {
-    if (tracklist.length === 0 || currentIndex >= tracklist.length - 1) {
+    if (currentIndex >= tracklist.length - 1) {
       seek(30); //currentTrack.duration
       if (isPlaying) setIsPlaying(false);
       return;
     }
     const nextIndex = (currentIndex + 1) % tracklist.length;
     setCurrentIndex(nextIndex);
-    setCurrentTrack(tracklist[nextIndex]);
-    setIsPlaying(true);
+    if(!tracklist[nextIndex].preview){
+      try{
+        playNext();
+      } catch(e) {return e}
+    } else{
+      setCurrentTrack(tracklist[nextIndex]);
+      setIsPlaying(true);
+    }
   };
 
   const playPrevious = () => {
@@ -93,8 +115,15 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
     }
     const prevIndex = (currentIndex - 1 + tracklist.length) % tracklist.length;
     setCurrentIndex(prevIndex);
-    setCurrentTrack(tracklist[prevIndex]);
-    setIsPlaying(true);
+    if(!tracklist[prevIndex].preview){
+      try{
+        playPrevious();
+      } catch(e) {return(e)}
+    }
+    else{
+      setCurrentTrack(tracklist[prevIndex]);
+      setIsPlaying(true);
+    }
   };
 
   const togglePlay = () => {
