@@ -57,8 +57,8 @@ export default function Card({
 
   return (
     <div className="relative group w-fit">
-      <Link rel="preload" href={linkUrl}>
-        <div className="group peer-hover:scale-105 peer-hover:bg-card-hover peer-hover:shadow-md peer-hover:shadow-normal-blue relative bg-card max-w-48 px-3 py-2 flex flex-col gap-1 rounded-lg text-white font-[family-name:var(--font-geist-sans)] hover:scale-105 hover:bg-card-hover hover:shadow-md hover:shadow-normal-blue ease-in-out transition-all duration-300">
+      <div className="group peer-hover:scale-105 peer-hover:bg-card-hover peer-hover:shadow-md peer-hover:shadow-normal-blue relative bg-card max-w-48 px-3 py-2 flex flex-col gap-1 rounded-lg text-white font-[family-name:var(--font-geist-sans)] hover:scale-105 hover:bg-card-hover hover:shadow-md hover:shadow-normal-blue ease-in-out transition-all duration-300">
+        <Link rel="preload" href={linkUrl}>
           <Image
             priority={true}
             src={imageUrl}
@@ -73,8 +73,9 @@ export default function Card({
           <p className="text-sm font-extralight">
             {carousel ? release_date : subtitle}
           </p>
+        </Link>
 
-          {isTrack(item) ? (
+        {isTrack(item) ? (
           <Button
             raw
             variant="card_play"
@@ -87,10 +88,7 @@ export default function Card({
         ) : isPlaylist(item) ? (
           <Button raw variant="card_play" onClick={playPlaylist(item)}></Button>
         ) : null}
-          </div>
-      </Link>
-
-      
+      </div>
     </div>
   );
 }

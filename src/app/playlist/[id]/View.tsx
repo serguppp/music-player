@@ -14,7 +14,10 @@ type Props = {
 };
 
 export default function PlaylistView({ id }: Props) {
-  const { data: playlist, isLoading: isLoadingPlaylist } = useItemByID("playlist", id)
+  const { data: playlist, isLoading: isLoadingPlaylist } = useItemByID(
+    "playlist",
+    id
+  );
   const item = playlist && isPlaylist(playlist) ? playlist : null;
   const tracks = item?.tracks.data;
 
@@ -26,7 +29,7 @@ export default function PlaylistView({ id }: Props) {
   }
 
   if (!item || !isPlaylist(item)) {
-    return <Page404/>;
+    return <Page404 />;
   }
 
   return (
@@ -64,7 +67,7 @@ export default function PlaylistView({ id }: Props) {
         </div>
       </div>
 
-      <TrackTable type="playlist" tracks={tracks?? []} />
+      <TrackTable type="playlist" tracks={tracks ?? []} />
     </div>
   );
 }

@@ -37,9 +37,10 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     if (audioRef.current) {
       if (isPlaying) {
-        audioRef.current
-          .play()
+        if(audioRef.current.src){
+          audioRef.current.play()
           .catch((e) => console.error("Playback error: ", e));
+        }
       } else {
         audioRef.current.pause();
       }

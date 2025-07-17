@@ -1,9 +1,9 @@
 import PlaylistView from "./View";
 
-type Params = Promise<{id: string}>
+type Params = Promise<{ id: string }>;
 
-export default async function Page(props: {params:Params}) {
+export default async function Page(props: { params: Params }) {
   const id = (await props.params).id;
 
-  return <PlaylistView id={id}/>  
+  return <PlaylistView id={id} />;
 }
