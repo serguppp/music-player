@@ -2,16 +2,19 @@
 
 import Button from "@/components/Button";
 import { useAuth } from "@/hooks/useAuth";
+import { useSession, signOut } from "next-auth/react";
 import {
   House,
   Compass,
   Heart,
   ListMusic,
   User,
+  LogOut,
 } from "lucide-react";
 
 export default function Sidebar() {
   const {toggleLogin} = useAuth();
+  const { data: session, status } = useSession(); 
 
   return (
     <aside
@@ -60,15 +63,32 @@ export default function Sidebar() {
 
         <nav className="flex flex-col space-y-6 mb-4">
           {/*<Button active variant="side_bar" href="/settings" Icon={Settings}>Settings</Button>*/}
+          {status === "loading" ?
+            <div className="text-sm text-gray-400">Loading...</div>
+          : session?.user? (
+            <>
+              <span className="text-white text-sm truncate">Hi, {session.user.email} </span>
+              <Button
+                variant="side_bar"
+                onClick={() => signOut()}
+                className="text-normal-pink cursor-pointer"
+                Icon={LogOut}
+              >
+                Logout
+              </Button>
+            </>
+          ):(
           <Button
-            active
-            variant="side_bar"
-            onClick={toggleLogin}
-            className="text-normal-pink cursor-pointer"
-            Icon={User}
-          >
-            Account
-          </Button>
+              active
+              variant="side_bar"
+              onClick={toggleLogin}
+              className="text-normal-pink cursor-pointer"
+              Icon={User}
+              >
+              Account
+            </Button>
+          )}
+
         </nav>
       </div>
     </aside>

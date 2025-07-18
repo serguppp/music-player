@@ -2,6 +2,9 @@
 
 import { useState } from "react";
 import Button from "./Button";
+import { useRouter } from "next/navigation";
+import { useAuth } from "@/hooks/useAuth";
+import { signIn } from "next-auth/react";
 
 type Props = {
   mode: string;
@@ -10,24 +13,55 @@ type Props = {
 export default function AuthForm({ mode }: Props) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
-  const handleSubmit = (e: React.FormEvent) => {
+  const [error, setError] = useState("");
+  const router = useRouter()
+  const {toggleLogin} = useAuth();
+ 
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    //Registration
+    try {
+      if (mode === 'register') {
+        const res = await fetch ('/api/auth/register', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({email, password}),
+        });
 
-    if (mode === "login") {
-      console.log("Logowanie:", email, password);
-      // fetch api/login
-    } else if (mode=== "register") {
-      console.log("Rejestracja:", email, password);
-      // fetch api/register
-    } else return;
+        if (!res.ok){
+          const body = await res.json();
+          setError(body.message || "Registration failed");
+          return;
+        }
+      }
+
+      //Logging in
+      const result = await signIn("credentials", {
+        redirect: false,
+        email,
+        password,
+      });
+
+      if (result?.ok){
+        toggleLogin();
+        router.refresh();
+      } else{
+        setError(result?.error || "Invalid credentials");
+      }
+    } catch(error){
+      setError("An unexpected error occurred.");
+      console.error(error);
+    }
   };
 
+  //FIXME: error not showing; handle error
   return (
     <form
       onSubmit={handleSubmit}
       className="w-full mx-8 md:max-w-sm  lg:mx-auto flex flex-col gap-4 text-white"
     >
+      {error && <p className="text-red-500 text-center text-sm mb-2">{error}</p>}
       <input
         type="email"
         placeholder="Email"

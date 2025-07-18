@@ -4,13 +4,11 @@ import "./globals.css";
 
 import Navbar from "@/components/Navbar";
 import Sidebar from "@/components/Sidebar";
-import Login from "@/components/Login";
 import { PlayerProvider } from "@/context/PlayerContext";
 import AudioBar from "@/components/Audiobar";
 import QueryProvider from "@/context/QueryProvider";
-import { useState } from "react";
-import { useAuth } from "@/hooks/useAuth";
 import { AuthProvider } from "@/context/AuthContext";
+import NextAuthProvider from "@/context/NextAuthProvider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -40,6 +38,7 @@ export default function RootLayout({
         <QueryProvider>
           <PlayerProvider>
             <div className="flex flex-col relative">
+              <NextAuthProvider>
               <AuthProvider>
                 <Sidebar />
                 <Navbar />
@@ -49,6 +48,7 @@ export default function RootLayout({
                   </div>
                 </main>
               </AuthProvider>
+              </NextAuthProvider>
             </div>
             <AudioBar />
           </PlayerProvider>
